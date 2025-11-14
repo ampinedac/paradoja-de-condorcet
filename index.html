@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paradoja de Condorcet - Dados Intransitivos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Paradoja de Condorcet con Dados</h1>
+            <p class="subtitle">Explorando la intransitividad en probabilidades</p>
+        </header>
+
+        <main>
+            <!-- Sección de descripción del problema -->
+            <section id="descripcion" class="section">
+                <h2>Descripción del Problema</h2>
+                <div class="problema-text">
+                    <p>Se confeccionan cuatro dados D1, D2, D3, D4 de la siguiente forma:</p>
+                    <ul>
+                        <li><strong>D1:</strong> tiene en cuatro caras 4 y en dos 0</li>
+                        <li><strong>D2:</strong> en todas sus caras 3</li>
+                        <li><strong>D3:</strong> 2 en cuatro caras y 6 en las restantes</li>
+                        <li><strong>D4:</strong> tiene 5 en tres caras y 1 en las otras tres</li>
+                    </ul>
+                    
+                    <p><strong>Reglas del juego:</strong></p>
+                    <ol>
+                        <li>Dos jugadores compiten</li>
+                        <li>Uno de ellos selecciona un dado y el contrincante, después, otro</li>
+                        <li>Lanzan los dados un máximo de tres veces</li>
+                        <li>Gana quien en dos de los lanzamientos obtiene una puntuación superior</li>
+                    </ol>
+                    
+                    <p class="pregunta">¿Cuál es la mejor estrategia para ganar el juego?</p>
+                </div>
+            </section>
+
+            <!-- Sección de visualización de dados -->
+            <section id="dados" class="section">
+                <h2>Los Dados</h2>
+                <div class="dados-container">
+                    <div class="dado" id="dado1">
+                        <h3>D1</h3>
+                        <div class="caras">
+                            <div class="cara">4</div>
+                            <div class="cara">4</div>
+                            <div class="cara">4</div>
+                            <div class="cara">4</div>
+                            <div class="cara">0</div>
+                            <div class="cara">0</div>
+                        </div>
+                        <p>Promedio: 2.67</p>
+                    </div>
+
+                    <div class="dado" id="dado2">
+                        <h3>D2</h3>
+                        <div class="caras">
+                            <div class="cara">3</div>
+                            <div class="cara">3</div>
+                            <div class="cara">3</div>
+                            <div class="cara">3</div>
+                            <div class="cara">3</div>
+                            <div class="cara">3</div>
+                        </div>
+                        <p>Promedio: 3.00</p>
+                    </div>
+
+                    <div class="dado" id="dado3">
+                        <h3>D3</h3>
+                        <div class="caras">
+                            <div class="cara">2</div>
+                            <div class="cara">2</div>
+                            <div class="cara">2</div>
+                            <div class="cara">2</div>
+                            <div class="cara">6</div>
+                            <div class="cara">6</div>
+                        </div>
+                        <p>Promedio: 2.67</p>
+                    </div>
+
+                    <div class="dado" id="dado4">
+                        <h3>D4</h3>
+                        <div class="caras">
+                            <div class="cara">5</div>
+                            <div class="cara">5</div>
+                            <div class="cara">5</div>
+                            <div class="cara">1</div>
+                            <div class="cara">1</div>
+                            <div class="cara">1</div>
+                        </div>
+                        <p>Promedio: 3.00</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de juego interactivo -->
+            <section id="juego" class="section">
+                <h2>Juego Interactivo</h2>
+                
+                <div class="seleccion-dados">
+                    <h3>Selección de Dados</h3>
+                    <div class="jugadores">
+                        <div class="jugador">
+                            <h4>Jugador 1</h4>
+                            <select id="dadoJugador1">
+                                <option value="">Selecciona un dado</option>
+                                <option value="D1">D1 (4,4,4,4,0,0)</option>
+                                <option value="D2">D2 (3,3,3,3,3,3)</option>
+                                <option value="D3">D3 (2,2,2,2,6,6)</option>
+                                <option value="D4">D4 (5,5,5,1,1,1)</option>
+                            </select>
+                            <div id="dadoSeleccionado1" class="dado-seleccionado"></div>
+                        </div>
+
+                        <div class="jugador">
+                            <h4>Jugador 2</h4>
+                            <select id="dadoJugador2">
+                                <option value="">Selecciona un dado</option>
+                                <option value="D1">D1 (4,4,4,4,0,0)</option>
+                                <option value="D2">D2 (3,3,3,3,3,3)</option>
+                                <option value="D3">D3 (2,2,2,2,6,6)</option>
+                                <option value="D4">D4 (5,5,5,1,1,1)</option>
+                            </select>
+                            <div id="dadoSeleccionado2" class="dado-seleccionado"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="juego-area">
+                    <button id="iniciarJuego" class="btn-primary" disabled>Iniciar Juego</button>
+                    <button id="lanzarDados" class="btn-secondary" disabled>Lanzar Dados</button>
+                    <button id="reiniciarJuego" class="btn-tertiary">Reiniciar</button>
+                </div>
+
+                <div id="resultadosJuego" class="resultados">
+                    <div class="ronda-info">
+                        <h4>Ronda: <span id="rondaActual">0</span>/3</h4>
+                        <div class="marcador">
+                            <div>Jugador 1: <span id="puntosJ1">0</span></div>
+                            <div>Jugador 2: <span id="puntosJ2">0</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="lanzamientos">
+                        <div class="lanzamiento-resultado">
+                            <div>Jugador 1: <span id="resultadoJ1">-</span></div>
+                            <div>Jugador 2: <span id="resultadoJ2">-</span></div>
+                            <div class="ganador-ronda" id="ganadorRonda"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="ganadorFinal" class="ganador-final"></div>
+                </div>
+
+                <div class="historial">
+                    <h4>Historial de Lanzamientos</h4>
+                    <div id="historialLanzamientos"></div>
+                </div>
+            </section>
+
+            <!-- Sección de análisis probabilístico -->
+            <section id="analisis" class="section">
+                <h2>Análisis Probabilístico</h2>
+                
+                <div class="matriz-probabilidades">
+                    <h3>Matriz de Probabilidades de Victoria</h3>
+                    <p>Probabilidad de que el dado de la fila gane al dado de la columna:</p>
+                    
+                    <table id="tablaProbabilidades">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>D1</th>
+                                <th>D2</th>
+                                <th>D3</th>
+                                <th>D4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>D1</th>
+                                <td>-</td>
+                                <td id="prob-D1-D2">Calculando...</td>
+                                <td id="prob-D1-D3">Calculando...</td>
+                                <td id="prob-D1-D4">Calculando...</td>
+                            </tr>
+                            <tr>
+                                <th>D2</th>
+                                <td id="prob-D2-D1">Calculando...</td>
+                                <td>-</td>
+                                <td id="prob-D2-D3">Calculando...</td>
+                                <td id="prob-D2-D4">Calculando...</td>
+                            </tr>
+                            <tr>
+                                <th>D3</th>
+                                <td id="prob-D3-D1">Calculando...</td>
+                                <td id="prob-D3-D2">Calculando...</td>
+                                <td>-</td>
+                                <td id="prob-D3-D4">Calculando...</td>
+                            </tr>
+                            <tr>
+                                <th>D4</th>
+                                <td id="prob-D4-D1">Calculando...</td>
+                                <td id="prob-D4-D2">Calculando...</td>
+                                <td id="prob-D4-D3">Calculando...</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="estrategia">
+                    <h3>Estrategia Óptima</h3>
+                    <div id="estrategiaTexto">
+                        <p>Analizando las probabilidades...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de estadísticas -->
+            <section id="estadisticas" class="section">
+                <h2>Estadísticas de Juegos</h2>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <h4>Total de Juegos</h4>
+                        <span id="totalJuegos">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Victorias por Dado</h4>
+                        <div id="victoriasporDado">
+                            <div>D1: <span id="victoriasD1">0</span></div>
+                            <div>D2: <span id="victoriasD2">0</span></div>
+                            <div>D3: <span id="victoriasD3">0</span></div>
+                            <div>D4: <span id="victoriasD4">0</span></div>
+                        </div>
+                    </div>
+                </div>
+                <button id="limpiarEstadisticas" class="btn-tertiary">Limpiar Estadísticas</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+header h1 {
+    font-size: 3em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+    font-size: 1.2em;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* Secciones */
+.section {
+    background: rgba(255, 255, 255, 0.95);
+    margin-bottom: 30px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.section h2 {
+    color: #2c3e50;
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 10px;
+}
+
+/* Descripción del problema */
+.problema-text {
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+.problema-text ul, .problema-text ol {
+    margin: 20px 0;
+    padding-left: 30px;
+}
+
+.problema-text li {
+    margin-bottom: 10px;
+}
+
+.problema-text strong {
+    color: #2980b9;
+}
+
+.pregunta {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    background: #fff3f3;
+    border-radius: 10px;
+    border-left: 5px solid #e74c3c;
+}
+
+/* Dados */
+.dados-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.dado {
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dado:hover {
+    transform: translateY(-10px);
+    border-color: #3498db;
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+}
+
+.dado h3 {
+    font-size: 1.8em;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.caras {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.cara {
+    background: #3498db;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+.cara:hover {
+    background: #2980b9;
+    transform: scale(1.1);
+}
+
+.dado p {
+    font-weight: bold;
+    color: #7f8c8d;
+    font-size: 1.1em;
+}
+
+/* Selección de dados para el juego */
+.seleccion-dados {
+    margin-bottom: 30px;
+}
+
+.jugadores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.jugador {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+}
+
+.jugador h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.jugador select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    background: white;
+    transition: border-color 0.3s ease;
+}
+
+.jugador select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.dado-seleccionado {
+    margin-top: 15px;
+    min-height: 50px;
+    background: white;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #7f8c8d;
+}
+
+.dado-seleccionado.activo {
+    border-color: #3498db;
+    background: #e3f2fd;
+    color: #2980b9;
+}
+
+/* Botones */
+.btn-primary, .btn-secondary, .btn-tertiary {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #229954;
+    transform: translateY(-2px);
+}
+
+.btn-tertiary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-tertiary:hover {
+    background: #7f8c8d;
+    transform: translateY(-2px);
+}
+
+.btn-primary:disabled, .btn-secondary:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Área de juego */
+.juego-area {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.resultados {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.ronda-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.ronda-info h4 {
+    color: #2c3e50;
+    font-size: 1.3em;
+}
+
+.marcador {
+    display: flex;
+    gap: 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.marcador div {
+    color: #2980b9;
+}
+
+.lanzamiento-resultado {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.lanzamiento-resultado div {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.ganador-ronda {
+    font-weight: bold;
+    color: #27ae60;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.ganador-final {
+    background: #d4edda;
+    color: #155724;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-top: 20px;
+    border: 2px solid #c3e6cb;
+}
+
+/* Historial */
+.historial {
+    margin-top: 30px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.historial h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+#historialLanzamientos {
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.entrada-historial {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9em;
+}
+
+.entrada-historial:last-child {
+    border-bottom: none;
+}
+
+/* Tabla de probabilidades */
+#tablaProbabilidades {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 1.1em;
+}
+
+#tablaProbabilidades th,
+#tablaProbabilidades td {
+    border: 2px solid #ddd;
+    padding: 15px;
+    text-align: center;
+}
+
+#tablaProbabilidades th {
+    background: #3498db;
+    color: white;
+    font-weight: bold;
+}
+
+#tablaProbabilidades td {
+    background: white;
+}
+
+#tablaProbabilidades .alta {
+    background: #d4edda;
+    color: #155724;
+    font-weight: bold;
+}
+
+#tablaProbabilidades .media {
+    background: #fff3cd;
+    color: #856404;
+    font-weight: bold;
+}
+
+#tablaProbabilidades .baja {
+    background: #f8d7da;
+    color: #721c24;
+    font-weight: bold;
+}
+
+/* Estrategia */
+.estrategia {
+    margin-top: 30px;
+    background: #e8f5e8;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #27ae60;
+}
+
+.estrategia h3 {
+    color: #27ae60;
+    margin-bottom: 15px;
+}
+
+/* Estadísticas */
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    text-align: center;
+}
+
+.stat-item h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.stat-item span {
+    font-size: 2em;
+    font-weight: bold;
+    color: #3498db;
+}
+
+#victoriasporDado div {
+    margin: 8px 0;
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+
+/* Animaciones */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.lanzando {
+    animation: pulse 0.5s ease-in-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+    
+    .dados-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .jugadores {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .ronda-info {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .marcador {
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    #tablaProbabilidades {
+        font-size: 0.9em;
+    }
+    
+    #tablaProbabilidades th,
+    #tablaProbabilidades td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dados-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .caras {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    header h1 {
+        font-size: 1.8em;
+    }
+    
+    .subtitle {
+        font-size: 1em;
+    }
+}
