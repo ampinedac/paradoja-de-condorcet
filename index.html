@@ -7,6 +7,34 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Modal de registro de jugadores -->
+    <div id="modalRegistro" class="modal-overlay">
+        <div class="modal-content">
+            <h2>¡Bienvenidos al Juego!</h2>
+            <div class="reglas-resumen">
+                <h3>Reglas del Juego:</h3>
+                <ul>
+                    <li><strong>Paso 1:</strong> Jugador 1 elige un dado primero</li>
+                    <li><strong>Paso 2:</strong> Jugador 2 elige su dado después</li>
+                    <li><strong>Paso 3:</strong> Juegan hasta 3 rondas máximo</li>
+                    <li><strong>Objetivo:</strong> Gana quien obtenga más victorias (2 de 3)</li>
+                    <li><strong>Paradoja:</strong> ¡No existe "el mejor dado"! Cada dado puede ganar a otro</li>
+                </ul>
+            </div>
+            <div class="registro-jugadores">
+                <div class="input-group">
+                    <label for="nombreJugador1">Nombre del Jugador 1:</label>
+                    <input type="text" id="nombreJugador1" placeholder="Escribe tu nombre">
+                </div>
+                <div class="input-group">
+                    <label for="nombreJugador2">Nombre del Jugador 2:</label>
+                    <input type="text" id="nombreJugador2" placeholder="Escribe tu nombre">
+                </div>
+                <button id="btnComenzarJuego" class="btn-comenzar">¡Comenzar Juego!</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <h1>Paradoja de Condorcet con Dados</h1>
@@ -29,8 +57,10 @@
                     <p><strong>Reglas del juego:</strong></p>
                     <ol>
                         <li>Dos jugadores compiten</li>
-                        <li>Uno de ellos selecciona un dado y el contrincante, después, otro</li>
-                        <li>Lanzan los dados un máximo de tres veces</li>
+                        <li><strong>El Jugador 1 selecciona UN dado</strong> para todo el juego</li>
+                        <li><strong>El Jugador 2, después, selecciona otro dado</strong> para todo el juego</li>
+                        <li>Ambos jugadores usan su dado seleccionado en todas las rondas</li>
+                        <li>Lanzan los dados un máximo de tres veces (rondas)</li>
                         <li>Gana quien en dos de los lanzamientos obtiene una puntuación superior</li>
                     </ol>
                     
@@ -42,56 +72,64 @@
             <section id="dados" class="section">
                 <h2>Los Dados</h2>
                 <div class="dados-container">
-                    <div class="dado" id="dado1">
+                    <div class="dado-3d-container">
                         <h3>D1</h3>
-                        <div class="caras">
-                            <div class="cara">4</div>
-                            <div class="cara">4</div>
-                            <div class="cara">4</div>
-                            <div class="cara">4</div>
-                            <div class="cara">0</div>
-                            <div class="cara">0</div>
+                        <div class="dado-3d" id="dado3d-1">
+                            <div class="cara-3d cara-frente">4</div>
+                            <div class="cara-3d cara-atras">4</div>
+                            <div class="cara-3d cara-derecha">4</div>
+                            <div class="cara-3d cara-izquierda">4</div>
+                            <div class="cara-3d cara-arriba">0</div>
+                            <div class="cara-3d cara-abajo">0</div>
                         </div>
-                        <p>Promedio: 2.67</p>
+                        <div class="caras-lista">
+                            <span>Caras: 4, 4, 4, 4, 0, 0</span>
+                        </div>
                     </div>
 
-                    <div class="dado" id="dado2">
+                    <div class="dado-3d-container">
                         <h3>D2</h3>
-                        <div class="caras">
-                            <div class="cara">3</div>
-                            <div class="cara">3</div>
-                            <div class="cara">3</div>
-                            <div class="cara">3</div>
-                            <div class="cara">3</div>
-                            <div class="cara">3</div>
+                        <div class="dado-3d" id="dado3d-2">
+                            <div class="cara-3d cara-frente">3</div>
+                            <div class="cara-3d cara-atras">3</div>
+                            <div class="cara-3d cara-derecha">3</div>
+                            <div class="cara-3d cara-izquierda">3</div>
+                            <div class="cara-3d cara-arriba">3</div>
+                            <div class="cara-3d cara-abajo">3</div>
                         </div>
-                        <p>Promedio: 3.00</p>
+                        <div class="caras-lista">
+                            <span>Caras: 3, 3, 3, 3, 3, 3</span>
+                        </div>
                     </div>
 
-                    <div class="dado" id="dado3">
+                    <div class="dado-3d-container">
                         <h3>D3</h3>
-                        <div class="caras">
-                            <div class="cara">2</div>
-                            <div class="cara">2</div>
-                            <div class="cara">2</div>
-                            <div class="cara">2</div>
-                            <div class="cara">6</div>
-                            <div class="cara">6</div>
+                        <div class="dado-3d" id="dado3d-3">
+                            <div class="cara-3d cara-frente">2</div>
+                            <div class="cara-3d cara-atras">2</div>
+                            <div class="cara-3d cara-derecha">2</div>
+                            <div class="cara-3d cara-izquierda">2</div>
+                            <div class="cara-3d cara-arriba seis">6</div>
+                            <div class="cara-3d cara-abajo seis">6</div>
                         </div>
-                        <p>Promedio: 2.67</p>
+                        <div class="caras-lista">
+                            <span>Caras: 2, 2, 2, 2, 6, 6</span>
+                        </div>
                     </div>
 
-                    <div class="dado" id="dado4">
+                    <div class="dado-3d-container">
                         <h3>D4</h3>
-                        <div class="caras">
-                            <div class="cara">5</div>
-                            <div class="cara">5</div>
-                            <div class="cara">5</div>
-                            <div class="cara">1</div>
-                            <div class="cara">1</div>
-                            <div class="cara">1</div>
+                        <div class="dado-3d" id="dado3d-4">
+                            <div class="cara-3d cara-frente">5</div>
+                            <div class="cara-3d cara-atras">5</div>
+                            <div class="cara-3d cara-derecha">5</div>
+                            <div class="cara-3d cara-izquierda">1</div>
+                            <div class="cara-3d cara-arriba">1</div>
+                            <div class="cara-3d cara-abajo">1</div>
                         </div>
-                        <p>Promedio: 3.00</p>
+                        <div class="caras-lista">
+                            <span>Caras: 5, 5, 5, 1, 1, 1</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -104,50 +142,87 @@
                     <h3>Selección de Dados</h3>
                     <div class="jugadores">
                         <div class="jugador">
-                            <h4>Jugador 1</h4>
-                            <select id="dadoJugador1">
+                            <h4><span id="nombreJugador1Display">Jugador 1</span></h4>
+                            <select id="dadoJugador1" onchange="manejarSeleccionDado1()">
                                 <option value="">Selecciona un dado</option>
                                 <option value="D1">D1 (4,4,4,4,0,0)</option>
                                 <option value="D2">D2 (3,3,3,3,3,3)</option>
                                 <option value="D3">D3 (2,2,2,2,6,6)</option>
                                 <option value="D4">D4 (5,5,5,1,1,1)</option>
                             </select>
-                            <div id="dadoSeleccionado1" class="dado-seleccionado"></div>
                         </div>
 
                         <div class="jugador">
-                            <h4>Jugador 2</h4>
-                            <select id="dadoJugador2">
+                            <h4><span id="nombreJugador2Display">Jugador 2</span></h4>
+                            <select id="dadoJugador2" onchange="manejarSeleccionDado2()">
                                 <option value="">Selecciona un dado</option>
                                 <option value="D1">D1 (4,4,4,4,0,0)</option>
                                 <option value="D2">D2 (3,3,3,3,3,3)</option>
                                 <option value="D3">D3 (2,2,2,2,6,6)</option>
                                 <option value="D4">D4 (5,5,5,1,1,1)</option>
                             </select>
-                            <div id="dadoSeleccionado2" class="dado-seleccionado"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="juego-area">
-                    <button id="iniciarJuego" class="btn-primary" disabled>Iniciar Juego</button>
-                    <button id="lanzarDados" class="btn-secondary" disabled>Lanzar Dados</button>
-                    <button id="reiniciarJuego" class="btn-tertiary">Reiniciar</button>
+                    <button id="iniciarJuego" class="btn-primary" disabled onclick="iniciarJuego()">Iniciar Juego</button>
+                    <button id="lanzarDados" class="btn-secondary" disabled onclick="lanzarDadosJuego()">🎲 Lanzar Dados</button>
+                    <button id="reiniciarJuego" class="btn-tertiary" onclick="reiniciarJuego()">Reiniciar</button>
+                </div>
+
+                <!-- Área de lanzamiento de dados -->
+                <div id="areaLanzamiento" class="area-lanzamiento" style="display: none;">
+                    <h4>🎲 Lanzamiento de Dados 🎲</h4>
+                    <div class="dados-lanzamiento">
+                        <div class="dado-lanzamiento-container">
+                            <div class="jugador-label" id="jugadorLabel1">Jugador 1</div>
+                            <div id="dadoLanzamientoJ1" class="dado-lanzamiento-3d">
+                                <div class="dado-cubo">
+                                    <div class="cara-lanz-3d cara-frente-lanz">4</div>
+                                    <div class="cara-lanz-3d cara-atras-lanz">4</div>
+                                    <div class="cara-lanz-3d cara-derecha-lanz">4</div>
+                                    <div class="cara-lanz-3d cara-izquierda-lanz">4</div>
+                                    <div class="cara-lanz-3d cara-arriba-lanz">0</div>
+                                    <div class="cara-lanz-3d cara-abajo-lanz">0</div>
+                                </div>
+                            </div>
+                            <div id="resultadoLanzJ1" class="resultado-lanz">?</div>
+                        </div>
+                        
+                        <div class="vs-divider">VS</div>
+                        
+                        <div class="dado-lanzamiento-container">
+                            <div class="jugador-label" id="jugadorLabel2">Jugador 2</div>
+                            <div id="dadoLanzamientoJ2" class="dado-lanzamiento-3d">
+                                <div class="dado-cubo">
+                                    <div class="cara-lanz-3d cara-frente-lanz">3</div>
+                                    <div class="cara-lanz-3d cara-atras-lanz">3</div>
+                                    <div class="cara-lanz-3d cara-derecha-lanz">3</div>
+                                    <div class="cara-lanz-3d cara-izquierda-lanz">3</div>
+                                    <div class="cara-lanz-3d cara-arriba-lanz">3</div>
+                                    <div class="cara-lanz-3d cara-abajo-lanz">3</div>
+                                </div>
+                            </div>
+                            <div id="resultadoLanzJ2" class="resultado-lanz">?</div>
+                        </div>
+                    </div>
+                    <div id="ganadorLanzamiento" class="ganador-lanzamiento"></div>
                 </div>
 
                 <div id="resultadosJuego" class="resultados">
                     <div class="ronda-info">
                         <h4>Ronda: <span id="rondaActual">0</span>/3</h4>
                         <div class="marcador">
-                            <div>Jugador 1: <span id="puntosJ1">0</span></div>
-                            <div>Jugador 2: <span id="puntosJ2">0</span></div>
+                            <div><span id="marcadorJ1">Jugador 1</span>: <span id="puntosJ1">0</span></div>
+                            <div><span id="marcadorJ2">Jugador 2</span>: <span id="puntosJ2">0</span></div>
                         </div>
                     </div>
                     
                     <div class="lanzamientos">
                         <div class="lanzamiento-resultado">
-                            <div>Jugador 1: <span id="resultadoJ1">-</span></div>
-                            <div>Jugador 2: <span id="resultadoJ2">-</span></div>
+                            <div><span id="resultJ1Label">Jugador 1</span>: <span id="resultadoJ1">-</span></div>
+                            <div><span id="resultJ2Label">Jugador 2</span>: <span id="resultadoJ2">-</span></div>
                             <div class="ganador-ronda" id="ganadorRonda"></div>
                         </div>
                     </div>
@@ -158,65 +233,6 @@
                 <div class="historial">
                     <h4>Historial de Lanzamientos</h4>
                     <div id="historialLanzamientos"></div>
-                </div>
-            </section>
-
-            <!-- Sección de análisis probabilístico -->
-            <section id="analisis" class="section">
-                <h2>Análisis Probabilístico</h2>
-                
-                <div class="matriz-probabilidades">
-                    <h3>Matriz de Probabilidades de Victoria</h3>
-                    <p>Probabilidad de que el dado de la fila gane al dado de la columna:</p>
-                    
-                    <table id="tablaProbabilidades">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>D1</th>
-                                <th>D2</th>
-                                <th>D3</th>
-                                <th>D4</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>D1</th>
-                                <td>-</td>
-                                <td id="prob-D1-D2">Calculando...</td>
-                                <td id="prob-D1-D3">Calculando...</td>
-                                <td id="prob-D1-D4">Calculando...</td>
-                            </tr>
-                            <tr>
-                                <th>D2</th>
-                                <td id="prob-D2-D1">Calculando...</td>
-                                <td>-</td>
-                                <td id="prob-D2-D3">Calculando...</td>
-                                <td id="prob-D2-D4">Calculando...</td>
-                            </tr>
-                            <tr>
-                                <th>D3</th>
-                                <td id="prob-D3-D1">Calculando...</td>
-                                <td id="prob-D3-D2">Calculando...</td>
-                                <td>-</td>
-                                <td id="prob-D3-D4">Calculando...</td>
-                            </tr>
-                            <tr>
-                                <th>D4</th>
-                                <td id="prob-D4-D1">Calculando...</td>
-                                <td id="prob-D4-D2">Calculando...</td>
-                                <td id="prob-D4-D3">Calculando...</td>
-                                <td>-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="estrategia">
-                    <h3>Estrategia Óptima</h3>
-                    <div id="estrategiaTexto">
-                        <p>Analizando las probabilidades...</p>
-                    </div>
                 </div>
             </section>
 
@@ -243,6 +259,6 @@
         </main>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script-simple.js"></script>
 </body>
 </html>

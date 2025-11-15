@@ -1,44 +1,113 @@
-// Configuración de los dados
-const dados = {
-    D1: [4, 4, 4, 4, 0, 0],
-    D2: [3, 3, 3, 3, 3, 3],
-    D3: [2, 2, 2, 2, 6, 6],
-    D4: [5, 5, 5, 1, 1, 1]
-};
-
-// Variables del estado del juego
+// Variables globales
+let dadoJugador1 = '';
+let dadoJugador2 = '';
 let juegoActivo = false;
-let rondaActual = 0;
 let puntosJugador1 = 0;
 let puntosJugador2 = 0;
-let dadoJugador1 = null;
-let dadoJugador2 = null;
-let historialCompleto = [];
-
-// Estadísticas globales
+let rondaActual = 1;
 let estadisticas = {
-    totalJuegos: 0,
-    victorias: {
-        D1: 0,
-        D2: 0,
-        D3: 0,
-        D4: 0
-    }
+    J1: { wins: 0, total: 0, resultados: [] },
+    J2: { wins: 0, total: 0, resultados: [] }
 };
 
-// Cargar estadísticas del localStorage
+// Función de debugging global
+window.debugCondorcet = function() {
+    console.log('=== DEBUG CONDORCET ===');
+    console.log('dadoJugador1:', dadoJugador1);
+    console.log('dadoJugador2:', dadoJugador2);
+    console.log('juegoActivo:', juegoActivo);
+    console.log('Elementos:');
+    console.log('- dadoJugador1 select:', document.getElementById('dadoJugador1'));
+    console.log('- dadoJugador2 select:', document.getElementById('dadoJugador2'));
+    console.log('- iniciarJuego button:', document.getElementById('iniciarJuego'));
+    console.log('- lanzarDados button:', document.getElementById('lanzarDados'));
+    console.log('- areaLanzamiento:', document.getElementById('areaLanzamiento'));
+    console.log('======================');
+};
+
+// Definición de dados con sus valores
+const dados = {
+    'D1': [4, 4, 4, 4, 0, 0],
+    'D2': [3, 3, 3, 3, 3, 3],
+    'D3': [2, 2, 2, 2, 6, 6],
+    'D4': [5, 5, 5, 1, 1, 1]
+};
+
+// Inicializar cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM cargado');
+    
+    // Cargar datos y configurar
+    cargarEstadisticas();
+    calcularTodasProbabilidades();
+    mostrarEstrategiaOptima();
+    
+    // Configurar event listeners de forma más segura
+    const dadoJ1 = document.getElementById('dadoJugador1');
+    const dadoJ2 = document.getElementById('dadoJugador2');
+    const btnIniciar = document.getElementById('iniciarJuego');
+    const btnLanzar = document.getElementById('lanzarDados');
+    const btnReiniciar = document.getElementById('reiniciarJuego');
+    const btnLimpiar = document.getElementById('limpiarEstadisticas');
+    
+    if (dadoJ1) {
+        dadoJ1.addEventListener('change', function(e) {
+            dadoJugador1 = e.target.value;
+            actualizarDadoSeleccionado(1, dadoJugador1);
+            verificarSeleccionCompleta();
+        });
+    }
+    
+    if (dadoJ2) {
+        dadoJ2.addEventListener('change', function(e) {
+            dadoJugador2 = e.target.value;
+            actualizarDadoSeleccionado(2, dadoJugador2);
+            verificarSeleccionCompleta();
+        });
+    }
+    
+    if (btnIniciar) {
+        btnIniciar.addEventListener('click', function() {
+            console.log('Clic en iniciar juego');
+            iniciarJuego();
+        });
+    }
+    
+    if (btnLanzar) {
+        btnLanzar.addEventListener('click', function() {
+            console.log('Clic en lanzar dados');
+            lanzarDadosJuego();
+        });
+    }
+    
+    if (btnReiniciar) {
+        btnReiniciar.addEventListener('click', reiniciarJuego);
+    }
+    
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener('click', limpiarEstadisticas);
+    }
+    
+    // Configurar año
+    const anioElement = document.getElementById('anio');
+    if (anioElement) {
+        anioElement.textContent = new Date().getFullYear();
+    }
+    
+    console.log('Inicialización completa');
+});
+
+// Cargar estadísticas guardadas
 function cargarEstadisticas() {
-    const stats = localStorage.getItem('estadisticasCondorcet');
+    const stats = localStorage.getItem('condorcetStats');
     if (stats) {
         estadisticas = JSON.parse(stats);
-        actualizarDisplayEstadisticas();
     }
 }
 
-// Guardar estadísticas en localStorage
+// Guardar estadísticas
 function guardarEstadisticas() {
-    localStorage.setItem('estadisticasCondorcet', JSON.stringify(estadisticas));
-    actualizarDisplayEstadisticas();
+    localStorage.setItem('condorcetStats', JSON.stringify(estadisticas));
 }
 
 // Función para lanzar un dado
@@ -48,197 +117,392 @@ function lanzarDado(tipoDado) {
     return caras[indice];
 }
 
-// Calcular probabilidad de que dado1 gane a dado2 en un lanzamiento
+// Calcular probabilidad de victoria entre dos dados
 function calcularProbabilidad(dado1, dado2) {
     const caras1 = dados[dado1];
     const caras2 = dados[dado2];
-    let victorias = 0;
-    let total = 0;
+    let wins1 = 0;
+    let wins2 = 0;
+    let empates = 0;
     
-    for (let cara1 of caras1) {
-        for (let cara2 of caras2) {
-            total++;
-            if (cara1 > cara2) {
-                victorias++;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 6; j++) {
+            if (caras1[i] > caras2[j]) {
+                wins1++;
+            } else if (caras1[i] < caras2[j]) {
+                wins2++;
+            } else {
+                empates++;
             }
         }
     }
     
-    return (victorias / total);
+    return {
+        p1: (wins1 / 36) * 100,
+        p2: (wins2 / 36) * 100,
+        empate: (empates / 36) * 100
+    };
 }
 
-// Calcular todas las probabilidades
+// Calcular todas las probabilidades y mostrar matriz
 function calcularTodasProbabilidades() {
-    const tiposDados = ['D1', 'D2', 'D3', 'D4'];
+    const dadosNombres = ['D1', 'D2', 'D3', 'D4'];
+    const matriz = document.getElementById('matriz-probabilidades');
     
-    for (let i = 0; i < tiposDados.length; i++) {
-        for (let j = 0; j < tiposDados.length; j++) {
-            if (i !== j) {
-                const dado1 = tiposDados[i];
-                const dado2 = tiposDados[j];
+    let html = '<table class="probability-table"><thead><tr><th></th>';
+    dadosNombres.forEach(dado => {
+        html += `<th>${dado}<br><small>[${dados[dado].join(',')}]</small></th>`;
+    });
+    html += '</tr></thead><tbody>';
+    
+    dadosNombres.forEach(dado1 => {
+        html += `<tr><th>${dado1}<br><small>[${dados[dado1].join(',')}]</small></th>`;
+        dadosNombres.forEach(dado2 => {
+            if (dado1 === dado2) {
+                html += '<td class="mismo-dado">50%</td>';
+            } else {
                 const prob = calcularProbabilidad(dado1, dado2);
-                
-                const celda = document.getElementById(`prob-${dado1}-${dado2}`);
-                if (celda) {
-                    const porcentaje = (prob * 100).toFixed(1);
-                    celda.textContent = `${porcentaje}%`;
-                    
-                    // Colorear según la probabilidad
-                    celda.classList.remove('alta', 'media', 'baja');
-                    if (prob > 0.6) {
-                        celda.classList.add('alta');
-                    } else if (prob > 0.4) {
-                        celda.classList.add('media');
-                    } else {
-                        celda.classList.add('baja');
-                    }
-                }
+                const porcentaje = prob.p1.toFixed(1);
+                let clase = '';
+                if (prob.p1 > 50) clase = 'ventaja-alta';
+                else if (prob.p1 < 50) clase = 'desventaja';
+                else clase = 'empate';
+                html += `<td class="${clase}">${porcentaje}%</td>`;
             }
-        }
-    }
-    
-    // Mostrar estrategia óptima
-    mostrarEstrategiaOptima();
+        });
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+    matriz.innerHTML = html;
 }
 
 // Mostrar estrategia óptima
 function mostrarEstrategiaOptima() {
-    const estrategiaTexto = document.getElementById('estrategiaTexto');
-    
-    const analisis = `
-        <h4>Análisis de la Paradoja de Condorcet:</h4>
-        <p><strong>Resultado sorprendente:</strong> Estos dados forman un ciclo intransitivo donde:</p>
-        <ul>
-            <li>D1 vence a D2 con probabilidad ${(calcularProbabilidad('D1', 'D2') * 100).toFixed(1)}%</li>
-            <li>D2 vence a D3 con probabilidad ${(calcularProbabilidad('D2', 'D3') * 100).toFixed(1)}%</li>
-            <li>D3 vence a D4 con probabilidad ${(calcularProbabilidad('D3', 'D4') * 100).toFixed(1)}%</li>
-            <li>D4 vence a D1 con probabilidad ${(calcularProbabilidad('D4', 'D1') * 100).toFixed(1)}%</li>
-        </ul>
-        
-        <h4>Estrategia Óptima:</h4>
-        <p><strong>Si eliges segundo:</strong> Siempre puedes elegir un dado que tenga ventaja sobre el dado del oponente.</p>
-        <p><strong>Si eliges primero:</strong> No hay dado "mejor", ya que siempre existe uno que te vence con mayor probabilidad.</p>
-        
-        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #ffc107;">
-            <strong>Conclusión:</strong> La mejor estrategia es elegir segundo, lo que demuestra que la ventaja no está en el dado seleccionado, 
-            sino en el orden de selección. Esta es la esencia de la paradoja de Condorcet.
+    const estrategiaDiv = document.getElementById('estrategia-optima');
+    estrategiaDiv.innerHTML = `
+        <div class="estrategia-card">
+            <h4>🎯 Estrategia Óptima</h4>
+            <div class="estrategia-content">
+                <p><strong>Si el oponente elige primero:</strong></p>
+                <ul>
+                    <li><strong>Contra D1:</strong> Usa D2 (probabilidad 66.7%)</li>
+                    <li><strong>Contra D2:</strong> Usa D3 (probabilidad 55.6%)</li>
+                    <li><strong>Contra D3:</strong> Usa D4 (probabilidad 55.6%)</li>
+                    <li><strong>Contra D4:</strong> Usa D1 (probabilidad 66.7%)</li>
+                </ul>
+                <p class="paradoja-explicacion">
+                    <strong>🔄 Paradoja:</strong> Cada dado puede ganar al siguiente, pero ninguno es el mejor absoluto.
+                    Es como "piedra, papel, tijera" pero con probabilidades.
+                </p>
+            </div>
         </div>
     `;
-    
-    estrategiaTexto.innerHTML = analisis;
 }
 
-// Configurar event listeners
-function configurarEventListeners() {
-    // Selección de dados
-    document.getElementById('dadoJugador1').addEventListener('change', function(e) {
-        dadoJugador1 = e.target.value;
-        actualizarDadoSeleccionado(1, dadoJugador1);
-        verificarSeleccionCompleta();
-    });
-    
-    document.getElementById('dadoJugador2').addEventListener('change', function(e) {
-        dadoJugador2 = e.target.value;
-        actualizarDadoSeleccionado(2, dadoJugador2);
-        verificarSeleccionCompleta();
-    });
-    
-    // Botones de juego
-    document.getElementById('iniciarJuego').addEventListener('click', iniciarJuego);
-    document.getElementById('lanzarDados').addEventListener('click', lanzarDadosJuego);
-    document.getElementById('reiniciarJuego').addEventListener('click', reiniciarJuego);
-    document.getElementById('limpiarEstadisticas').addEventListener('click', limpiarEstadisticas);
-}
-
-// Actualizar display del dado seleccionado
+// Actualizar visualización del dado seleccionado
 function actualizarDadoSeleccionado(jugador, dado) {
-    const container = document.getElementById(`dadoSeleccionado${jugador}`);
+    const elemento = document.getElementById(`dadoSeleccionado${jugador}`);
     if (dado) {
-        container.textContent = `${dado}: [${dados[dado].join(', ')}]`;
-        container.classList.add('activo');
+        elemento.textContent = `${dado} [${dados[dado].join(', ')}]`;
+        elemento.classList.add('activo');
     } else {
-        container.textContent = '';
-        container.classList.remove('activo');
+        elemento.textContent = '';
+        elemento.classList.remove('activo');
     }
 }
 
 // Verificar si ambos jugadores han seleccionado dados
 function verificarSeleccionCompleta() {
-    const iniciarBtn = document.getElementById('iniciarJuego');
-    if (dadoJugador1 && dadoJugador2 && dadoJugador1 !== dadoJugador2) {
-        iniciarBtn.disabled = false;
+    console.log('Verificando selección:', dadoJugador1, dadoJugador2);
+    
+    const btnIniciar = document.getElementById('iniciarJuego');
+    if (!btnIniciar) {
+        console.error('Botón iniciar no encontrado');
+        return;
+    }
+    
+    if (dadoJugador1 && dadoJugador2) {
+        console.log('Ambos dados seleccionados - habilitando botón');
+        btnIniciar.disabled = false;
+        actualizarOpcionesDisponibles();
+        mostrarProbabilidades();
     } else {
-        iniciarBtn.disabled = true;
+        console.log('Faltan dados - deshabilitando botón');
+        btnIniciar.disabled = true;
     }
 }
 
-// Iniciar nuevo juego
-function iniciarJuego() {
-    juegoActivo = true;
-    rondaActual = 0;
-    puntosJugador1 = 0;
-    puntosJugador2 = 0;
-    historialCompleto = [];
+// Función separada para mostrar probabilidades
+function mostrarProbabilidades() {
+    if (!dadoJugador1 || !dadoJugador2) return;
     
-    document.getElementById('iniciarJuego').disabled = true;
-    document.getElementById('lanzarDados').disabled = false;
-    document.getElementById('dadoJugador1').disabled = true;
-    document.getElementById('dadoJugador2').disabled = true;
-    
-    actualizarDisplayJuego();
-    limpiarHistorial();
-    
-    // Limpiar resultado anterior
-    document.getElementById('ganadorFinal').innerHTML = '';
+    const prob = calcularProbabilidad(dadoJugador1, dadoJugador2);
+    const infoProb = document.getElementById('info-probabilidades') || crearInfoProbabilidades();
+    infoProb.innerHTML = `
+        <div class="probabilidades-actuales">
+            <h4>📊 Probabilidades de esta selección</h4>
+            <div class="prob-row">
+                <span>🎲 ${dadoJugador1}: <strong>${prob.p1.toFixed(1)}%</strong></span>
+                <span>🎲 ${dadoJugador2}: <strong>${prob.p2.toFixed(1)}%</strong></span>
+                <span>🤝 Empate: <strong>${prob.empate.toFixed(1)}%</strong></span>
+            </div>
+        </div>
+    `;
 }
 
-// Lanzar dados en el juego
-function lanzarDadosJuego() {
-    if (!juegoActivo || rondaActual >= 3) return;
+// Crear elemento para mostrar probabilidades
+function crearInfoProbabilidades() {
+    const info = document.createElement('div');
+    info.id = 'info-probabilidades';
+    info.className = 'info-probabilidades';
+    document.querySelector('.selector-dados').appendChild(info);
+    return info;
+}
+
+// Actualizar opciones disponibles según selecciones
+function actualizarOpcionesDisponibles() {
+    const select1 = document.getElementById('dadoJugador1');
+    const select2 = document.getElementById('dadoJugador2');
     
-    rondaActual++;
+    // Crear arrays de opciones
+    const opciones = ['D1', 'D2', 'D3', 'D4'];
     
-    // Animación de lanzamiento
-    const resultadoJ1Element = document.getElementById('resultadoJ1');
-    const resultadoJ2Element = document.getElementById('resultadoJ2');
-    
-    resultadoJ1Element.parentElement.classList.add('lanzando');
-    resultadoJ2Element.parentElement.classList.add('lanzando');
-    
-    setTimeout(() => {
-        const resultadoJ1 = lanzarDado(dadoJugador1);
-        const resultadoJ2 = lanzarDado(dadoJugador2);
+    [select1, select2].forEach((select, index) => {
+        const valorActual = select.value;
+        const otroValor = index === 0 ? dadoJugador2 : dadoJugador1;
         
-        resultadoJ1Element.textContent = resultadoJ1;
-        resultadoJ2Element.textContent = resultadoJ2;
-        
-        let ganadorRonda = '';
-        if (resultadoJ1 > resultadoJ2) {
-            puntosJugador1++;
-            ganadorRonda = 'Ganador: Jugador 1';
-        } else if (resultadoJ2 > resultadoJ1) {
-            puntosJugador2++;
-            ganadorRonda = 'Ganador: Jugador 2';
+        Array.from(select.querySelectorAll('option')).forEach(option => {
+            if (option.value && option.value !== valorActual) {
+                option.disabled = option.value === otroValor;
+                option.style.opacity = option.disabled ? '0.5' : '1';
+            }
+        });
+    });
+}
+
+// Iniciar juego
+function iniciarJuego() {
+    console.log('INICIANDO JUEGO');
+    
+    if (!dadoJugador1 || !dadoJugador2) {
+        alert('⚠️ Por favor selecciona ambos dados antes de iniciar');
+        return;
+    }
+    
+    // Reiniciar contadores
+    juegoActivo = true;
+    puntosJugador1 = 0;
+    puntosJugador2 = 0;
+    rondaActual = 1;
+    
+    // Obtener elementos
+    const dadoJ1Select = document.getElementById('dadoJugador1');
+    const dadoJ2Select = document.getElementById('dadoJugador2');
+    const btnIniciar = document.getElementById('iniciarJuego');
+    const btnLanzar = document.getElementById('lanzarDados');
+    const areaLanzamiento = document.getElementById('areaLanzamiento');
+    
+    // Configurar controles
+    if (dadoJ1Select) dadoJ1Select.disabled = true;
+    if (dadoJ2Select) dadoJ2Select.disabled = true;
+    if (btnIniciar) btnIniciar.disabled = true;
+    
+    if (btnLanzar) {
+        btnLanzar.disabled = false;
+        btnLanzar.textContent = '🎲 Lanzar Dados';
+        console.log('Botón lanzar dados habilitado');
+    } else {
+        console.error('ERROR: Botón lanzar dados no encontrado');
+    }
+    
+    if (areaLanzamiento) {
+        areaLanzamiento.style.display = 'block';
+        console.log('Área de lanzamiento mostrada');
+    }
+    
+    // Configurar dados de lanzamiento
+    configurarDadosLanzamiento();
+    
+    // Actualizar display
+    actualizarDisplayJuego();
+    
+    console.log('Juego iniciado exitosamente');
+}
+
+// Configurar los dados de lanzamiento 3D
+function configurarDadosLanzamiento() {
+    const dadoJ1Element = document.getElementById('dadoLanzamientoJ1');
+    const dadoJ2Element = document.getElementById('dadoLanzamientoJ2');
+    
+    // Configurar caras del dado del jugador 1
+    const carasJ1 = dados[dadoJugador1];
+    const carasElementsJ1 = dadoJ1Element.querySelectorAll('.cara-lanz-3d');
+    carasElementsJ1.forEach((cara, index) => {
+        cara.textContent = carasJ1[index];
+        if (carasJ1[index] === 6) {
+            cara.classList.add('seis');
         } else {
-            ganadorRonda = 'Empate';
+            cara.classList.remove('seis');
+        }
+    });
+    
+    // Configurar caras del dado del jugador 2
+    const carasJ2 = dados[dadoJugador2];
+    const carasElementsJ2 = dadoJ2Element.querySelectorAll('.cara-lanz-3d');
+    carasElementsJ2.forEach((cara, index) => {
+        cara.textContent = carasJ2[index];
+        if (carasJ2[index] === 6) {
+            cara.classList.add('seis');
+        } else {
+            cara.classList.remove('seis');
+        }
+    });
+    
+    console.log(`🔧 Dados configurados: J1=${JSON.stringify(carasJ1)}, J2=${JSON.stringify(carasJ2)}`);
+}
+
+// Lanzar dados del juego con animación 3D realista
+function lanzarDadosJuego() {
+    if (!juegoActivo) return;
+    
+    document.getElementById('lanzarDados').disabled = true;
+    document.getElementById('ganadorLanzamiento').textContent = 'Preparando lanzamiento...';
+    
+    // Obtener elementos de dados y sus cubos internos
+    const dadoJ1Element = document.getElementById('dadoLanzamientoJ1');
+    const dadoJ2Element = document.getElementById('dadoLanzamientoJ2');
+    const cuboJ1 = dadoJ1Element.querySelector('.dado-cubo');
+    const cuboJ2 = dadoJ2Element.querySelector('.dado-cubo');
+    
+    // Limpiar clases anteriores y resetear posición
+    cuboJ1.classList.remove('dado-resultado-final');
+    cuboJ2.classList.remove('dado-resultado-final');
+    cuboJ1.className = 'dado-cubo';
+    cuboJ2.className = 'dado-cubo';
+    cuboJ1.style.animation = '';
+    cuboJ2.style.animation = '';
+    
+    // Pequeña pausa para mostrar que van a ser lanzados
+    setTimeout(() => {
+        // Agregar animación de dados rodando
+        cuboJ1.style.animation = 'dadoRodando 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+        cuboJ2.style.animation = 'dadoRodando 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+        
+        document.getElementById('ganadorLanzamiento').textContent = '🎲 Dados rodando...';
+        
+        // Simular sonidos de dados realistas
+        console.log('🎲 *Sonido inicial: CLIC-CLIC* (dados chocando)');
+        
+        setTimeout(() => {
+            console.log('🔊 *Sonido: TAKA-TAKA-TAKA* (dados rodando en la superficie)');
+        }, 800);
+        
+        setTimeout(() => {
+            console.log('🔊 *Sonido: TAK... TAK... tak* (dados perdiendo velocidad)');
+        }, 1800);
+        
+        setTimeout(() => {
+            console.log('🔊 *Sonido final: CLONK* (dados se detienen)');
+        }, 2300);
+        
+        setTimeout(() => {
+            // Obtener resultados
+            const resultadoJ1 = lanzarDado(dadoJugador1);
+            const resultadoJ2 = lanzarDado(dadoJugador2);
+            
+            // Mostrar resultados finales con rotación a la cara correcta
+            mostrarResultadoFinalRealista(resultadoJ1, resultadoJ2, cuboJ1, cuboJ2);
+            
+        }, 2500); // Duración de la animación de dados rodando (2.5 segundos)
+        
+    }, 500); // Pausa inicial para mostrar dados listos
+}
+
+// Mostrar resultado final con rotación realista a la cara correcta
+function mostrarResultadoFinalRealista(resultadoJ1, resultadoJ2, cuboJ1, cuboJ2) {
+    // Detener la animación de rodado
+    cuboJ1.style.animation = '';
+    cuboJ2.style.animation = '';
+    
+    // Agregar clase de transición suave
+    cuboJ1.classList.add('dado-resultado-final');
+    cuboJ2.classList.add('dado-resultado-final');
+    
+    // Determinar qué cara mostrar según el resultado y rotar hacia ella
+    const caraJ1 = determinarCaraParaResultado(resultadoJ1, dadoJugador1);
+    const caraJ2 = determinarCaraParaResultado(resultadoJ2, dadoJugador2);
+    
+    // Aplicar rotación para mostrar la cara correcta
+    cuboJ1.classList.add(caraJ1);
+    cuboJ2.classList.add(caraJ2);
+    
+    // Actualizar los resultados en pantalla
+    document.getElementById('resultadoLanzJ1').textContent = resultadoJ1;
+    document.getElementById('resultadoLanzJ2').textContent = resultadoJ2;
+    
+    // Después de la rotación, agregar animación de rebote
+    setTimeout(() => {
+        cuboJ1.style.animation = 'rebote3D 0.6s ease-out';
+        cuboJ2.style.animation = 'rebote3D 0.6s ease-out';
+        
+        // Determinar y mostrar ganador
+        let mensaje = '';
+        if (resultadoJ1 > resultadoJ2) {
+            mensaje = '🏆 ¡Jugador 1 gana esta ronda!';
+            document.getElementById('resultadoLanzJ1').classList.add('resultado-brillando-3d');
+            puntosJugador1++;
+        } else if (resultadoJ2 > resultadoJ1) {
+            mensaje = '🏆 ¡Jugador 2 gana esta ronda!';
+            document.getElementById('resultadoLanzJ2').classList.add('resultado-brillando-3d');
+            puntosJugador2++;
+        } else {
+            mensaje = '🤝 ¡Empate!';
         }
         
-        document.getElementById('ganadorRonda').textContent = ganadorRonda;
+        document.getElementById('ganadorLanzamiento').textContent = mensaje;
         
-        // Agregar al historial
-        const entradaHistorial = `Ronda ${rondaActual}: J1(${dadoJugador1})=${resultadoJ1} vs J2(${dadoJugador2})=${resultadoJ2} - ${ganadorRonda}`;
-        agregarAlHistorial(entradaHistorial);
-        
+        // Actualizar estadísticas
+        actualizarEstadisticas(resultadoJ1, resultadoJ2);
         actualizarDisplayJuego();
         
-        // Verificar si el juego ha terminado
-        if (puntosJugador1 >= 2 || puntosJugador2 >= 2 || rondaActual >= 3) {
-            terminarJuego();
-        }
+        // Agregar al historial
+        agregarAlHistorial(`Ronda ${rondaActual}: J1=${resultadoJ1}, J2=${resultadoJ2} - ${mensaje}`);
         
-        resultadoJ1Element.parentElement.classList.remove('lanzando');
-        resultadoJ2Element.parentElement.classList.remove('lanzando');
-    }, 500);
+        rondaActual++;
+        console.log(`✅ Ronda completada: J1=${resultadoJ1}, J2=${resultadoJ2} - ${mensaje}`);
+        
+        // Verificar si hay ganador del juego
+        setTimeout(() => {
+            if (puntosJugador1 >= 2 || puntosJugador2 >= 2 || rondaActual > 3) {
+                terminarJuego();
+            } else {
+                // Preparar para siguiente ronda
+                document.getElementById('lanzarDados').disabled = false;
+                document.getElementById('lanzarDados').textContent = `🎲 Lanzar Ronda ${rondaActual}`;
+            }
+        }, 2000);
+        
+    }, 800); // Tiempo para que complete la rotación
+}
+
+// Determinar qué cara del dado debe mostrarse según el resultado
+function determinarCaraParaResultado(resultado, tipoDado) {
+    const carasDelDado = dados[tipoDado];
+    
+    // Encontrar en qué posición está este resultado en el dado
+    const indiceCaraConResultado = carasDelDado.indexOf(resultado);
+    
+    // Mapear cada índice de cara a su clase CSS correspondiente
+    const mapeoCaras = [
+        'mostrar-cara-frente',    // índice 0
+        'mostrar-cara-atras',     // índice 1  
+        'mostrar-cara-derecha',   // índice 2
+        'mostrar-cara-izquierda', // índice 3
+        'mostrar-cara-arriba',    // índice 4
+        'mostrar-cara-abajo'      // índice 5
+    ];
+    
+    return mapeoCaras[indiceCaraConResultado] || 'mostrar-cara-frente';
 }
 
 // Terminar juego
@@ -250,58 +514,96 @@ function terminarJuego() {
     let dadoGanador = '';
     
     if (puntosJugador1 > puntosJugador2) {
-        ganadorFinal = '¡Jugador 1 GANA!';
+        ganadorFinal = '🎉 ¡Jugador 1 GANA!';
         dadoGanador = dadoJugador1;
     } else if (puntosJugador2 > puntosJugador1) {
-        ganadorFinal = '¡Jugador 2 GANA!';
+        ganadorFinal = '🎉 ¡Jugador 2 GANA!';
         dadoGanador = dadoJugador2;
     } else {
-        ganadorFinal = '¡EMPATE!';
+        ganadorFinal = '🤝 ¡EMPATE!';
     }
     
     document.getElementById('ganadorFinal').innerHTML = `
-        <div>${ganadorFinal}</div>
-        <div style="font-size: 0.9em; margin-top: 10px;">
-            ${dadoGanador ? `Dado ganador: ${dadoGanador}` : 'Sin dado ganador'}
+        <div style="font-size: 1.4em; margin-bottom: 10px;">${ganadorFinal}</div>
+        <div style="font-size: 1em; color: #666;">
+            ${dadoGanador ? `Dado ganador: ${dadoGanador} [${dados[dadoGanador].join(', ')}]` : 'Sin dado ganador'}
+        </div>
+        <div style="margin-top: 15px;">
+            <small>Marcador final: ${puntosJugador1} - ${puntosJugador2}</small>
         </div>
     `;
     
-    // Actualizar estadísticas
-    if (dadoGanador) {
-        estadisticas.victorias[dadoGanador]++;
-    }
-    estadisticas.totalJuegos++;
-    guardarEstadisticas();
+    console.log(`🏁 Juego terminado: ${ganadorFinal} - Marcador: ${puntosJugador1}-${puntosJugador2}`);
 }
 
 // Reiniciar juego
 function reiniciarJuego() {
+    // Reiniciar variables
     juegoActivo = false;
-    rondaActual = 0;
     puntosJugador1 = 0;
     puntosJugador2 = 0;
-    dadoJugador1 = null;
-    dadoJugador2 = null;
-    historialCompleto = [];
+    rondaActual = 1;
+    dadoJugador1 = '';
+    dadoJugador2 = '';
     
+    // Resetear selecciones
     document.getElementById('dadoJugador1').value = '';
     document.getElementById('dadoJugador2').value = '';
     document.getElementById('dadoJugador1').disabled = false;
     document.getElementById('dadoJugador2').disabled = false;
     document.getElementById('iniciarJuego').disabled = true;
     document.getElementById('lanzarDados').disabled = true;
+    document.getElementById('lanzarDados').textContent = '🎲 Lanzar Dados';
     
+    // Ocultar área de lanzamiento
+    document.getElementById('areaLanzamiento').style.display = 'none';
+    
+    // Limpiar displays de dados seleccionados
     document.getElementById('dadoSeleccionado1').textContent = '';
     document.getElementById('dadoSeleccionado1').classList.remove('activo');
     document.getElementById('dadoSeleccionado2').textContent = '';
     document.getElementById('dadoSeleccionado2').classList.remove('activo');
     
+    // Limpiar resultados
     actualizarDisplayJuego();
     limpiarHistorial();
     document.getElementById('ganadorFinal').innerHTML = '';
     document.getElementById('ganadorRonda').textContent = '';
     document.getElementById('resultadoJ1').textContent = '-';
     document.getElementById('resultadoJ2').textContent = '-';
+    
+    // Limpiar área de lanzamiento
+    document.getElementById('resultadoLanzJ1').textContent = '?';
+    document.getElementById('resultadoLanzJ2').textContent = '?';
+    document.getElementById('ganadorLanzamiento').textContent = '';
+    
+    // Limpiar animaciones 3D si las hay
+    const dadoJ1Element = document.getElementById('dadoLanzamientoJ1');
+    const dadoJ2Element = document.getElementById('dadoLanzamientoJ2');
+    const resultadoLanzJ1 = document.getElementById('resultadoLanzJ1');
+    const resultadoLanzJ2 = document.getElementById('resultadoLanzJ2');
+    
+    if (dadoJ1Element && dadoJ2Element) {
+        const cuboJ1 = dadoJ1Element.querySelector('.dado-cubo');
+        const cuboJ2 = dadoJ2Element.querySelector('.dado-cubo');
+        
+        if (cuboJ1 && cuboJ2) {
+            // Limpiar todas las clases de animación y resultado
+            cuboJ1.classList.remove('dado-resultado-final');
+            cuboJ2.classList.remove('dado-resultado-final');
+            cuboJ1.className = 'dado-cubo'; // Resetear a clase base
+            cuboJ2.className = 'dado-cubo'; // Resetear a clase base
+            cuboJ1.style.animation = '';
+            cuboJ2.style.animation = '';
+        }
+    }
+    
+    if (resultadoLanzJ1 && resultadoLanzJ2) {
+        resultadoLanzJ1.classList.remove('resultado-brillando-3d');
+        resultadoLanzJ2.classList.remove('resultado-brillando-3d');
+    }
+    
+    console.log('🔄 Juego reiniciado - Selecciona nuevos dados');
 }
 
 // Actualizar display del juego
@@ -313,90 +615,61 @@ function actualizarDisplayJuego() {
 
 // Agregar entrada al historial
 function agregarAlHistorial(entrada) {
-    historialCompleto.unshift(entrada);
-    const historialDiv = document.getElementById('historialLanzamientos');
+    const historial = document.getElementById('historial-juego');
+    const nuevaEntrada = document.createElement('div');
+    nuevaEntrada.className = 'historial-entrada';
+    nuevaEntrada.textContent = entrada;
+    historial.insertBefore(nuevaEntrada, historial.firstChild);
     
-    const entradaDiv = document.createElement('div');
-    entradaDiv.className = 'entrada-historial';
-    entradaDiv.textContent = entrada;
-    
-    historialDiv.insertBefore(entradaDiv, historialDiv.firstChild);
-    
-    // Mantener solo las últimas 10 entradas en el display
-    while (historialDiv.children.length > 10) {
-        historialDiv.removeChild(historialDiv.lastChild);
+    // Limitar historial a 10 entradas
+    if (historial.children.length > 10) {
+        historial.removeChild(historial.lastChild);
     }
 }
 
 // Limpiar historial
 function limpiarHistorial() {
-    document.getElementById('historialLanzamientos').innerHTML = '';
+    document.getElementById('historial-juego').innerHTML = '';
 }
 
-// Actualizar display de estadísticas
-function actualizarDisplayEstadisticas() {
-    document.getElementById('totalJuegos').textContent = estadisticas.totalJuegos;
-    document.getElementById('victoriasD1').textContent = estadisticas.victorias.D1;
-    document.getElementById('victoriasD2').textContent = estadisticas.victorias.D2;
-    document.getElementById('victoriasD3').textContent = estadisticas.victorias.D3;
-    document.getElementById('victoriasD4').textContent = estadisticas.victorias.D4;
+// Actualizar estadísticas
+function actualizarEstadisticas(resultadoJ1, resultadoJ2) {
+    estadisticas.J1.total++;
+    estadisticas.J2.total++;
+    estadisticas.J1.resultados.push(resultadoJ1);
+    estadisticas.J2.resultados.push(resultadoJ2);
+    
+    if (resultadoJ1 > resultadoJ2) {
+        estadisticas.J1.wins++;
+    } else if (resultadoJ2 > resultadoJ1) {
+        estadisticas.J2.wins++;
+    }
+    
+    // Actualizar display de estadísticas
+    const winRateJ1 = estadisticas.J1.total > 0 ? (estadisticas.J1.wins / estadisticas.J1.total * 100).toFixed(1) : 0;
+    const winRateJ2 = estadisticas.J2.total > 0 ? (estadisticas.J2.wins / estadisticas.J2.total * 100).toFixed(1) : 0;
+    
+    document.getElementById('winRateJ1').textContent = `${winRateJ1}%`;
+    document.getElementById('winRateJ2').textContent = `${winRateJ2}%`;
+    document.getElementById('totalRondasJ1').textContent = estadisticas.J1.total;
+    document.getElementById('totalRondasJ2').textContent = estadisticas.J2.total;
+    
+    guardarEstadisticas();
 }
 
 // Limpiar estadísticas
 function limpiarEstadisticas() {
-    if (confirm('¿Estás seguro de que quieres limpiar todas las estadísticas?')) {
-        estadisticas = {
-            totalJuegos: 0,
-            victorias: {
-                D1: 0,
-                D2: 0,
-                D3: 0,
-                D4: 0
-            }
-        };
-        guardarEstadisticas();
-    }
+    estadisticas = {
+        J1: { wins: 0, total: 0, resultados: [] },
+        J2: { wins: 0, total: 0, resultados: [] }
+    };
+    
+    // Actualizar displays
+    document.getElementById('winRateJ1').textContent = '0%';
+    document.getElementById('winRateJ2').textContent = '0%';
+    document.getElementById('totalRondasJ1').textContent = '0';
+    document.getElementById('totalRondasJ2').textContent = '0';
+    
+    guardarEstadisticas();
+    console.log('📊 Estadísticas limpiadas');
 }
-
-// Función para simular múltiples juegos (para análisis)
-function simularJuegos(dado1, dado2, numeroJuegos = 1000) {
-    let victoriasDado1 = 0;
-    
-    for (let juego = 0; juego < numeroJuegos; juego++) {
-        let puntosDado1 = 0;
-        let puntosDado2 = 0;
-        
-        for (let ronda = 0; ronda < 3 && puntosDado1 < 2 && puntosDado2 < 2; ronda++) {
-            const resultado1 = lanzarDado(dado1);
-            const resultado2 = lanzarDado(dado2);
-            
-            if (resultado1 > resultado2) {
-                puntosDado1++;
-            } else if (resultado2 > resultado1) {
-                puntosDado2++;
-            }
-        }
-        
-        if (puntosDado1 > puntosDado2) {
-            victoriasDado1++;
-        }
-    }
-    
-    return victoriasDado1 / numeroJuegos;
-}
-
-// Inicialización cuando se carga la página
-document.addEventListener('DOMContentLoaded', function() {
-    configurarEventListeners();
-    calcularTodasProbabilidades();
-    cargarEstadisticas();
-    
-    // Agregar funcionalidad de simulación para desarrolladores (se puede activar desde consola)
-    window.simularJuegos = simularJuegos;
-    window.dados = dados;
-    window.calcularProbabilidad = calcularProbabilidad;
-    
-    console.log('🎲 Paradoja de Condorcet cargada');
-    console.log('💡 Usa simularJuegos("D1", "D2", 1000) para simular 1000 juegos');
-    console.log('📊 Usa calcularProbabilidad("D1", "D2") para probabilidades exactas');
-});

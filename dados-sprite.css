@@ -1,0 +1,105 @@
+/* ===== ALTERNATIVA 2: DADOS CON SPRITES 2D ===== */
+
+/* Dados con imágenes sprite que simulan 3D */
+.dado-sprite {
+    width: 80px;
+    height: 80px;
+    margin: 20px auto;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+/* Cara base del dado */
+.cara-sprite {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    font-weight: bold;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efectos de profundidad con pseudo-elementos */
+.cara-sprite::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    right: -5px;
+    bottom: 5px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    z-index: 1;
+    transform: skew(-5deg, -2deg);
+}
+
+.cara-sprite::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: -5px;
+    right: 10px;
+    bottom: -10px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    z-index: -1;
+    transform: skew(-5deg, -2deg);
+}
+
+/* Colores para diferentes dados */
+.dado-rojo { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; }
+.dado-azul { background: linear-gradient(135deg, #3498db, #2980b9); color: white; }
+.dado-verde { background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; }
+.dado-naranja { background: linear-gradient(135deg, #f39c12, #e67e22); color: white; }
+.dado-morado { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; }
+
+/* Animación de giro sprite */
+.dadoGirandoSprite {
+    animation: giroSprite 1.8s ease-out forwards;
+}
+
+@keyframes giroSprite {
+    0% { 
+        transform: rotate(0deg) scale(1);
+        filter: blur(0px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
+    25% { 
+        transform: rotate(270deg) scale(1.2);
+        filter: blur(1px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    }
+    50% { 
+        transform: rotate(630deg) scale(1.3);
+        filter: blur(2px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+    }
+    75% { 
+        transform: rotate(900deg) scale(1.1);
+        filter: blur(1px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    }
+    100% { 
+        transform: rotate(1080deg) scale(1);
+        filter: blur(0px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
+}
+
+/* Efecto de rebote al final */
+.dadoRebotando {
+    animation: rebotar 0.6s ease-out;
+}
+
+@keyframes rebotar {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    20% { transform: translateY(-15px) scale(1.05); }
+    40% { transform: translateY(-5px) scale(1.02); }
+    60% { transform: translateY(-8px) scale(1.03); }
+    80% { transform: translateY(-2px) scale(1.01); }
+}

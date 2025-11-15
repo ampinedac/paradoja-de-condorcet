@@ -7,10 +7,144 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: 
+        /* Fondo principal con gradiente */
+        linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #764ba2 100%),
+        /* Elementos matemáticos flotantes */
+        radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 2px, transparent 2px),
+        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 60% 80%, rgba(255, 255, 255, 0.04) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     min-height: 100vh;
     color: #333;
     line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* SISTEMA DE LLUVIA MATEMÁTICA MEJORADO */
+/* Capa 1: Símbolos principales flotando */
+body::before {
+    content: '⚀ ⚁ ⚂ ⚃ ⚄ ⚅ ∑ ∏ ∫ ∂ ∇ ± × ÷ ≤ ≥ ≠ ≈ ∝ ∈ ∉ ∩ ∪ ⊆ ⊇ ∅ ∞ π e φ λ μ σ θ α β γ δ ω Ω Γ Δ Λ Π Σ Φ Ψ ∀ ∃ ∧ ∨ ¬ → ↔ ≡ ⇒ ⇔ ⊕ ⊗ ⊥ ∥ ⟂ ⟨ ⟩ ⌊ ⌋ ⌈ ⌉ ′ ″ ‴ ∘ ∙ ∗ ⋅ ◦ ○ ● ◯ ▪ ▫ ■ □ ▲ △ ▼ ▽ ◆ ◇ ★ ☆ ♠ ♣ ♥ ♦ ⚀ ⚁ ⚂ ⚃ ⚄ ⚅ ∑ ∏ ∫ ∂ ∇ ± × ÷ ≤ ≥ ≠ ≈ ∝ ∈ ∉ ∩ ∪ ⊆ ⊇ ∅ ∞ π e φ λ μ σ θ α β γ δ ω';
+    position: fixed;
+    top: -50vh;
+    left: -25vw;
+    width: 150vw;
+    height: 200vh;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+    z-index: -2;
+    animation: lluviaMatematica1 30s infinite linear;
+    word-wrap: break-word;
+    line-height: 2.5;
+    letter-spacing: 2rem;
+    transform: rotate(-8deg);
+    overflow: hidden;
+}
+
+/* Capa 2: Fórmulas cayendo */
+body::after {
+    content: 'C(n,k)=n!/(k!(n-k)!) P(A∩B)=P(A)×P(B|A) E[X]=Σ(x·P(x)) Var(X)=E[X²]-(E[X])² σ=√Var(X) Z=(X-μ)/σ f(x)=(1/σ√2π)e^(-½((x-μ)/σ)²) Γ(n)=(n-1)! ∫₋∞^∞e^(-x²)dx=√π lim(n→∞)(1+1/n)ⁿ=e sin²(x)+cos²(x)=1 d/dx[xⁿ]=nxⁿ⁻¹ ∫1/x dx=ln|x|+C det(A)=Σ(±a₁ᵢ₁a₂ᵢ₂...aₙᵢₙ) ||v||=√(v₁²+v₂²+...+vₙ²) A⁻¹A=I tr(A)=Σaᵢᵢ P(A|B)=P(A∩B)/P(B) P(H|E)=P(E|H)×P(H)/P(E)';
+    position: fixed;
+    top: -30vh;
+    right: -20vw;
+    width: 140vw;
+    height: 160vh;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.06);
+    pointer-events: none;
+    z-index: -1;
+    animation: lluviaFormulas1 40s infinite linear;
+    word-wrap: break-word;
+    line-height: 3;
+    letter-spacing: 0.8rem;
+    transform: rotate(12deg);
+    overflow: hidden;
+}
+
+/* Capa 3: Partículas pequeñas cayendo en columnas */
+.container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        /* Columna 1 */
+        linear-gradient(180deg, 
+            transparent 0%, transparent 10%, 
+            rgba(255,255,255,0.1) 12%, rgba(255,255,255,0.1) 14%, 
+            transparent 16%, transparent 30%,
+            rgba(255,255,255,0.08) 32%, rgba(255,255,255,0.08) 34%,
+            transparent 36%, transparent 60%,
+            rgba(255,255,255,0.06) 62%, rgba(255,255,255,0.06) 64%,
+            transparent 66%, transparent 100%),
+        /* Columna 2 */
+        linear-gradient(180deg, 
+            transparent 0%, transparent 20%, 
+            rgba(255,255,255,0.05) 22%, rgba(255,255,255,0.05) 24%, 
+            transparent 26%, transparent 50%,
+            rgba(255,255,255,0.07) 52%, rgba(255,255,255,0.07) 54%,
+            transparent 56%, transparent 80%,
+            rgba(255,255,255,0.04) 82%, rgba(255,255,255,0.04) 84%,
+            transparent 86%, transparent 100%),
+        /* Columna 3 */
+        linear-gradient(180deg, 
+            transparent 0%, transparent 15%, 
+            rgba(255,255,255,0.09) 17%, rgba(255,255,255,0.09) 19%, 
+            transparent 21%, transparent 45%,
+            rgba(255,255,255,0.06) 47%, rgba(255,255,255,0.06) 49%,
+            transparent 51%, transparent 75%,
+            rgba(255,255,255,0.03) 77%, rgba(255,255,255,0.03) 79%,
+            transparent 81%, transparent 100%);
+    background-size: 
+        100px 100vh,
+        150px 100vh, 
+        200px 100vh;
+    background-position: 
+        10% 0,
+        50% 0,
+        85% 0;
+    background-repeat: no-repeat;
+    animation: lluviaParticulas1 15s linear infinite;
+    pointer-events: none;
+    z-index: -3;
+}
+
+@keyframes lluviaMatematica1 {
+    0% { 
+        transform: translateY(-50vh) translateX(0) rotate(-8deg); 
+    }
+    100% { 
+        transform: translateY(100vh) translateX(25vw) rotate(-8deg); 
+    }
+}
+
+@keyframes lluviaFormulas1 {
+    0% { 
+        transform: translateY(-30vh) translateX(0) rotate(12deg); 
+    }
+    100% { 
+        transform: translateY(120vh) translateX(-30vw) rotate(12deg); 
+    }
+}
+
+@keyframes lluviaParticulas1 {
+    0% { 
+        background-position: 
+            10% -100vh,
+            50% -100vh,
+            85% -100vh;
+    }
+    100% { 
+        background-position: 
+            15% 200vh,
+            55% 200vh,
+            90% 200vh;
+    }
 }
 
 .container {
@@ -23,40 +157,90 @@ body {
 header {
     text-align: center;
     margin-bottom: 40px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 0.95) 100%);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 
+        0 15px 45px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 header h1 {
-    font-size: 3em;
+    font-size: 3.5em;
     color: #2c3e50;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.1),
+        0 0 30px rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, #2c3e50, #667eea, #764ba2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    z-index: 1;
 }
 
 .subtitle {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #7f8c8d;
     font-style: italic;
+    position: relative;
+    z-index: 1;
 }
 
 /* Secciones */
 .section {
-    background: rgba(255, 255, 255, 0.95);
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 0.95) 100%);
     margin-bottom: 30px;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 
+        0 15px 45px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 10% 10%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 90%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 .section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.18),
+        0 0 40px rgba(102, 126, 234, 0.2);
 }
 
 .section h2 {
@@ -98,62 +282,581 @@ header h1 {
     border-left: 5px solid #e74c3c;
 }
 
-/* Dados */
+/* Dados 3D */
 .dados-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
     margin-top: 30px;
 }
 
-.dado {
-    background: #fff;
-    border: 2px solid #ddd;
-    border-radius: 15px;
-    padding: 20px;
+.dado-3d-container {
     text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    perspective: 1000px;
 }
 
-.dado:hover {
-    transform: translateY(-10px);
-    border-color: #3498db;
-    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
-}
-
-.dado h3 {
+.dado-3d-container h3 {
     font-size: 1.8em;
     color: #2c3e50;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.dado-3d {
+    position: relative;
+    width: 90px; /* Reducido de 120px a 90px */
+    height: 90px;
+    margin: 0 auto 20px;
+    transform-style: preserve-3d;
+    animation: rotarDado 8s infinite linear;
+}
+
+.cara-3d {
+    position: absolute;
+    width: 90px; /* Reducido de 120px a 90px */
+    height: 90px;
+    background: #fff;
+    border: 3px solid #2c3e50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em; /* Reducido de 2.5em a 2em */
+    font-weight: bold;
+    color: #2c3e50;
+    border-radius: 6px; /* Reducido de 8px a 6px */
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Marca distintiva para el 6 en todos los dados */
+.cara-3d.seis:after,
+.cara-lanzamiento.seis:after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 3px;
+    background: currentColor;
+    border-radius: 2px;
+}
+
+/* Posiciones de las caras 3D - dados principales más pequeños */
+.cara-frente { transform: rotateY(0deg) translateZ(45px); background: #e74c3c; color: white; }
+.cara-atras { transform: rotateY(180deg) translateZ(45px); background: #3498db; color: white; }
+.cara-derecha { transform: rotateY(90deg) translateZ(45px); background: #27ae60; color: white; }
+.cara-izquierda { transform: rotateY(-90deg) translateZ(45px); background: #f39c12; color: white; }
+.cara-arriba { transform: rotateX(90deg) translateZ(45px); background: #9b59b6; color: white; }
+.cara-abajo { transform: rotateX(-90deg) translateZ(45px); background: #34495e; color: white; }
+
+/* Área de lanzamiento con dados 3D MÁS COMPACTA */
+.area-lanzamiento {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 30px 0;
+    padding: 30px 20px; /* Reducido de 60px a 30px */
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    color: white;
+    perspective: 2000px;
+    perspective-origin: center center;
+    transform-style: preserve-3d;
+    overflow: visible;
+}
+
+.dados-lanzamiento {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 60px; /* Reducido de 80px */
+    min-height: 200px; /* Reducido de 400px a 200px */
+    transform-style: preserve-3d;
+    padding: 20px 10px; /* Reducido padding */
+}
+
+.dado-lanzamiento-container {
+    text-align: center;
+    perspective: 800px;
+    transform-style: preserve-3d;
+    min-height: 180px; /* Reducido de 300px a 180px */
+    width: 160px; /* Reducido de 200px */
+}
+
+/* Dados 3D para lanzamiento - SIN CORTES Y CON COLORES */
+.dado-lanzamiento-3d {
+    position: relative;
+    width: 100px; /* Tamaño más conservador */
+    height: 100px;
+    margin: 50px auto 40px; /* MUCHO más margen */
+    transform-style: preserve-3d;
+    perspective: 400px; /* Perspectiva más pequeña */
+    perspective-origin: center center;
+    /* Posición inicial menos inclinada */
+    transform: rotateX(-10deg) rotateY(15deg) rotateZ(0deg);
+    transition: transform 0.3s ease;
+}
+
+.dado-lanzamiento-3d:hover {
+    transform: rotateX(-10deg) rotateY(15deg) rotateZ(0deg) scale(1.05);
+}
+
+.dado-lanzamiento-3d .dado-cubo {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    animation-fill-mode: both;
+}
+
+.cara-lanz-3d {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 3px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em; /* Números más pequeños */
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 
+        0 0 15px rgba(0, 0, 0, 0.3),
+        inset 0 0 8px rgba(255, 255, 255, 0.1);
+    backface-visibility: hidden;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+/* Posiciones de las caras 3D - CONSERVANDO COLORES ORIGINALES */
+.cara-frente-lanz { 
+    transform: rotateY(0deg) translateZ(50px); 
+    background: #e74c3c; 
+    color: white; 
+}
+.cara-atras-lanz { 
+    transform: rotateY(180deg) translateZ(50px); 
+    background: #3498db; 
+    color: white; 
+}
+.cara-derecha-lanz { 
+    transform: rotateY(90deg) translateZ(50px); 
+    background: #27ae60; 
+    color: white; 
+}
+.cara-izquierda-lanz { 
+    transform: rotateY(-90deg) translateZ(50px); 
+    background: #f39c12; 
+    color: white; 
+}
+.cara-arriba-lanz { 
+    transform: rotateX(90deg) translateZ(50px); 
+    background: #9b59b6; 
+    color: white; 
+}
+.cara-abajo-lanz { 
+    transform: rotateX(-90deg) translateZ(50px); 
+    background: #34495e; 
+    color: white; 
+}
+
+/* Marca distintiva para el 6 en dados de lanzamiento */
+.cara-lanz-3d.seis:after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 3px;
+    background: currentColor;
+    border-radius: 2px;
+}
+
+.vs-divider {
+    font-size: 2em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    align-self: center;
+    z-index: 10;
+}
+
+.resultado-lanz {
+    display: none; /* Ocultar círculos de resultado */
+}
+
+.ganador-lanzamiento {
+    margin-top: 20px;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    min-height: 30px;
+    text-align: center;
+}
+
+.ganador-j1 {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    animation: celebracion 0.6s ease;
+}
+
+.ganador-j2 {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    animation: celebracion 0.6s ease;
+}
+
+.empate {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    animation: celebracion 0.6s ease;
+}
+
+@keyframes celebracion {
+    0% { transform: scale(0.5) rotate(-5deg); opacity: 0; }
+    50% { transform: scale(1.1) rotate(2deg); opacity: 0.8; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Animaciones de dados REALISTAS - simulan dados físicos rodando */
+@keyframes dadoRodando {
+    0% { 
+        transform: rotateX(-15deg) rotateY(25deg) rotateZ(0deg) translateY(0px) translateZ(0px) scale(1);
+        filter: blur(0px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    5% {
+        transform: rotateX(30deg) rotateY(90deg) rotateZ(20deg) translateY(-15px) translateZ(8px) scale(1.02);
+        filter: blur(0.2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+    15% { 
+        transform: rotateX(120deg) rotateY(200deg) rotateZ(80deg) translateY(-40px) translateZ(20px) scale(1.08);
+        filter: blur(0.8px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+    }
+    30% { 
+        transform: rotateX(300deg) rotateY(480deg) rotateZ(200deg) translateY(-65px) translateZ(30px) scale(1.12);
+        filter: blur(1.2px);
+        box-shadow: 0 30px 40px rgba(0, 0, 0, 0.6);
+    }
+    45% { 
+        transform: rotateX(560deg) rotateY(800deg) rotateZ(380deg) translateY(-75px) translateZ(35px) scale(1.15);
+        filter: blur(1.8px);
+        box-shadow: 0 35px 45px rgba(0, 0, 0, 0.7);
+    }
+    60% { 
+        transform: rotateX(840deg) rotateY(1160deg) rotateZ(580deg) translateY(-60px) translateZ(25px) scale(1.1);
+        filter: blur(1.2px);
+        box-shadow: 0 25px 35px rgba(0, 0, 0, 0.5);
+    }
+    75% { 
+        transform: rotateX(1120deg) rotateY(1520deg) rotateZ(780deg) translateY(-35px) translateZ(15px) scale(1.05);
+        filter: blur(0.6px);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+    }
+    87% { 
+        transform: rotateX(1380deg) rotateY(1840deg) rotateZ(940deg) translateY(-8px) translateZ(5px) scale(1.02);
+        filter: blur(0.2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+    95% { 
+        transform: rotateX(1440deg) rotateY(1980deg) rotateZ(1080deg) translateY(-2px) translateZ(2px) scale(1.01);
+        filter: blur(0px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+    100% { 
+        /* La rotación final se ajustará dinámicamente */
+        transform: rotateX(1440deg) rotateY(1980deg) rotateZ(1080deg) translateY(0px) translateZ(0px) scale(1);
+        filter: blur(0px);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* Clase que aplica la animación de dados rodando */
+.dadoRodando {
+    animation: dadoRodando 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-style: preserve-3d;
+}
+
+/* Rotaciones finales para mostrar cada cara específica del dado */
+.mostrar-cara-frente { 
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) !important; 
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.mostrar-cara-atras { 
+    transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg) !important; 
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.mostrar-cara-derecha { 
+    transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg) !important; 
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.mostrar-cara-izquierda { 
+    transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg) !important; 
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.mostrar-cara-arriba { 
+    transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg) !important; 
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.mostrar-cara-abajo { 
+    transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg) !important; 
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Transición suave para la rotación final */
+.dado-resultado-final {
+    animation-fill-mode: forwards !important;
+}
+
+/* Animación de rebote realista cuando el dado cae */
+@keyframes rebote3D {
+    0% { 
+        transform: inherit;
+    }
+    15% { 
+        transform: inherit translateY(-12px) scale(1.03);
+    }
+    30% { 
+        transform: inherit translateY(-4px) scale(1.01);
+    }
+    45% { 
+        transform: inherit translateY(-8px) scale(1.02);
+    }
+    60% { 
+        transform: inherit translateY(-2px) scale(1.01);
+    }
+    75% { 
+        transform: inherit translateY(-4px) scale(1.01);
+    }
+    90% { 
+        transform: inherit translateY(-1px) scale(1);
+    }
+    100% { 
+        transform: inherit scale(1);
+    }
+}
+
+@keyframes temblor3D {
+    0%, 100% { 
+        transform: rotateX(1080deg) rotateY(1170deg) rotateZ(855deg) translateY(0px) translateZ(0px); 
+    }
+    20% { 
+        transform: rotateX(1081deg) rotateY(1171deg) rotateZ(856deg) translateY(-0.5px) translateZ(0.5px); 
+    }
+    40% { 
+        transform: rotateX(1079deg) rotateY(1169deg) rotateZ(854deg) translateY(0.5px) translateZ(-0.5px); 
+    }
+    60% { 
+        transform: rotateX(1080.5deg) rotateY(1170.5deg) rotateZ(855.5deg) translateY(-0.2px) translateZ(0.2px); 
+    }
+    80% { 
+        transform: rotateX(1079.5deg) rotateY(1169.5deg) rotateZ(854.5deg) translateY(0.2px) translateZ(-0.2px); 
+    }
+}
+
+/* Estados de animación 3D */
+.dado-cayendo-3d {
+    animation: lanzamiento3D 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.dado-rebotando-3d {
+    animation: rebote3D 1.5s ease-out, temblor3D 0.8s ease-out 1.5s;
+}
+
+.dado-listo-3d {
+    transform: rotateX(-15deg) rotateY(25deg) rotateZ(0deg);
+    transition: transform 0.5s ease;
+}
+
+.dado-resultado-3d {
+    transition: transform 1s ease-out;
+}
+
+/* Efecto de brillar para el resultado */
+@keyframes brillar3D {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 0 35px rgba(255, 215, 0, 0.7);
+        transform: scale(1.05);
+    }
+}
+
+.resultado-brillando-3d {
+    animation: brillar3D 1.5s ease-in-out infinite;
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    padding: 8px 16px;
+    background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+    background-size: 200% 200%;
+    animation: brillar3D 1.5s ease-in-out infinite, brillarFondo 2s ease-in-out infinite;
+}
+
+/* Remover estilos de dados planos antiguos */
+.dado-lanzamiento {
+    display: none;
+}
+
+.cara-lanzamiento {
+    display: none;
+}
+
+/* Animaciones de lanzamiento */
+@keyframes lanzamientoDado {
+    0% { 
+        transform: translateY(-100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        opacity: 0.8;
+    }
+    25% { 
+        transform: translateY(-50px) rotateX(180deg) rotateY(180deg) rotateZ(90deg);
+        opacity: 1;
+    }
+    50% { 
+        transform: translateY(-20px) rotateX(360deg) rotateY(360deg) rotateZ(180deg);
+    }
+    75% { 
+        transform: translateY(-10px) rotateX(540deg) rotateY(180deg) rotateZ(270deg);
+    }
+    85% { 
+        transform: translateY(-5px) rotateX(720deg) rotateY(360deg) rotateZ(360deg);
+    }
+    95% { 
+        transform: translateY(-2px) rotateX(720deg) rotateY(360deg) rotateZ(360deg);
+    }
+    100% { 
+        transform: translateY(0px) rotateX(720deg) rotateY(360deg) rotateZ(360deg);
+        opacity: 1;
+    }
+}
+
+@keyframes rebote {
+    0%, 100% { transform: translateY(0px); }
+    10% { transform: translateY(-8px); }
+    20% { transform: translateY(0px); }
+    30% { transform: translateY(-4px); }
+    40% { transform: translateY(0px); }
+    50% { transform: translateY(-2px); }
+    60% { transform: translateY(0px); }
+}
+
+/* Animación de brillar mejorada */
+@keyframes brillar3D {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 215, 0, 0.7);
+        transform: scale(1.05);
+    }
+}
+
+/* Animación de fondo brillante */
+@keyframes brillarFondo {
+    0% { 
+        background-position: 0% 50%;
+    }
+    50% { 
+        background-position: 100% 50%;
+    }
+    100% { 
+        background-position: 0% 50%;
+    }
+}
+
+.dado-cayendo {
+    animation: lanzamientoDado 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.dado-rebotando {
+    animation: rebote 1s ease-out;
+}
+
+/* Efecto de brillar para el resultado */
+@keyframes brillar {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 0, 0.6); }
+}
+
+.resultado-brillando {
+    animation: brillar 2s ease-in-out infinite;
+}
+
+.caras-lista {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+@keyframes rotarDado {
+    0% { 
+        transform: rotateX(0deg) rotateY(0deg); 
+    }
+    25% { 
+        transform: rotateX(90deg) rotateY(90deg); 
+    }
+    50% { 
+        transform: rotateX(180deg) rotateY(180deg); 
+    }
+    75% { 
+        transform: rotateX(270deg) rotateY(270deg); 
+    }
+    100% { 
+        transform: rotateX(360deg) rotateY(360deg); 
+    }
+}
+
+/* Versión rápida para lanzamientos */
+@keyframes rotarDadoRapido {
+    0% { 
+        transform: rotateX(0deg) rotateY(0deg); 
+    }
+    20% { 
+        transform: rotateX(180deg) rotateY(180deg); 
+    }
+    40% { 
+        transform: rotateX(360deg) rotateY(360deg); 
+    }
+    60% { 
+        transform: rotateX(540deg) rotateY(540deg); 
+    }
+    80% { 
+        transform: rotateX(720deg) rotateY(720deg); 
+    }
+    100% { 
+        transform: rotateX(900deg) rotateY(900deg); 
+    }
+}
+
+.dado-3d-container:hover .dado-3d {
+    animation-play-state: paused;
+}
+
+/* Dados antiguos - remover */
+.dado {
+    display: none;
 }
 
 .caras {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 15px;
+    display: none;
 }
 
 .cara {
-    background: #3498db;
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1.2em;
-    transition: all 0.3s ease;
-}
-
-.cara:hover {
-    background: #2980b9;
-    transform: scale(1.1);
-}
-
-.dado p {
-    font-weight: bold;
-    color: #7f8c8d;
-    font-size: 1.1em;
+    display: none;
 }
 
 /* Selección de dados para el juego */
@@ -196,24 +899,18 @@ header h1 {
     border-color: #3498db;
 }
 
-.dado-seleccionado {
-    margin-top: 15px;
-    min-height: 50px;
-    background: white;
-    border: 2px dashed #ddd;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: #7f8c8d;
+.jugador select option:disabled {
+    color: #ccc !important;
+    background-color: #f5f5f5 !important;
 }
 
-.dado-seleccionado.activo {
-    border-color: #3498db;
-    background: #e3f2fd;
-    color: #2980b9;
+.jugador select:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+    cursor: not-allowed;
 }
+
+/* Rectangulos punteados eliminados - no tenían función */
 
 /* Botones */
 .btn-primary, .btn-secondary, .btn-tertiary {
@@ -345,8 +1042,6 @@ header h1 {
 }
 
 #historialLanzamientos {
-    max-height: 200px;
-    overflow-y: auto;
     background: white;
     padding: 15px;
     border-radius: 8px;
@@ -477,13 +1172,60 @@ header h1 {
     
     .dados-container {
         grid-template-columns: 1fr 1fr;
-        gap: 15px;
+        gap: 20px;
     }
+    
+    .dado-3d {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .cara-3d {
+        width: 80px;
+        height: 80px;
+        font-size: 1.8em;
+    }
+    
+    .cara-frente { transform: rotateY(0deg) translateZ(40px); }
+    .cara-atras { transform: rotateY(180deg) translateZ(40px); }
+    .cara-derecha { transform: rotateY(90deg) translateZ(40px); }
+    .cara-izquierda { transform: rotateY(-90deg) translateZ(40px); }
+    .cara-arriba { transform: rotateX(90deg) translateZ(40px); }
+    .cara-abajo { transform: rotateX(-90deg) translateZ(40px); }
     
     .jugadores {
         grid-template-columns: 1fr;
         gap: 20px;
     }
+    
+    /* Área de lanzamiento responsiva */
+    .dados-lanzamiento {
+        flex-direction: column;
+        gap: 20px;
+        min-height: 220px;
+    }
+    
+    .vs-divider {
+        font-size: 1.5em;
+    }
+    
+    .dado-lanzamiento-3d {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .cara-lanz-3d {
+        width: 80px;
+        height: 80px;
+        font-size: 1.8em;
+    }
+    
+    .cara-frente-lanz { transform: rotateY(0deg) translateZ(40px); }
+    .cara-atras-lanz { transform: rotateY(180deg) translateZ(40px); }
+    .cara-derecha-lanz { transform: rotateY(90deg) translateZ(40px); }
+    .cara-izquierda-lanz { transform: rotateY(-90deg) translateZ(40px); }
+    .cara-arriba-lanz { transform: rotateX(90deg) translateZ(40px); }
+    .cara-abajo-lanz { transform: rotateX(-90deg) translateZ(40px); }
     
     .ronda-info {
         flex-direction: column;
@@ -516,9 +1258,23 @@ header h1 {
         grid-template-columns: 1fr;
     }
     
-    .caras {
-        grid-template-columns: repeat(2, 1fr);
+    .dado-3d {
+        width: 60px;
+        height: 60px;
     }
+    
+    .cara-3d {
+        width: 60px;
+        height: 60px;
+        font-size: 1.4em;
+    }
+    
+    .cara-frente { transform: rotateY(0deg) translateZ(30px); }
+    .cara-atras { transform: rotateY(180deg) translateZ(30px); }
+    .cara-derecha { transform: rotateY(90deg) translateZ(30px); }
+    .cara-izquierda { transform: rotateY(-90deg) translateZ(30px); }
+    .cara-arriba { transform: rotateX(90deg) translateZ(30px); }
+    .cara-abajo { transform: rotateX(-90deg) translateZ(30px); }
     
     header h1 {
         font-size: 1.8em;
@@ -526,5 +1282,772 @@ header h1 {
     
     .subtitle {
         font-size: 1em;
+    }
+    
+    .dado-3d-container h3 {
+        font-size: 1.4em;
+    }
+    
+    /* Área de lanzamiento móvil */
+    .area-lanzamiento {
+        padding: 20px 10px;
+    }
+    
+    .area-lanzamiento h4 {
+        font-size: 1.4em;
+    }
+    
+    .dado-lanzamiento-3d {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .cara-lanz-3d {
+        width: 60px;
+        height: 60px;
+        font-size: 1.4em;
+    }
+    
+    .cara-frente-lanz { transform: rotateY(0deg) translateZ(30px); }
+    .cara-atras-lanz { transform: rotateY(180deg) translateZ(30px); }
+    .cara-derecha-lanz { transform: rotateY(90deg) translateZ(30px); }
+    .cara-izquierda-lanz { transform: rotateY(-90deg) translateZ(30px); }
+    .cara-arriba-lanz { transform: rotateX(90deg) translateZ(30px); }
+    .cara-abajo-lanz { transform: rotateX(-90deg) translateZ(30px); }
+    
+    .resultado-lanz {
+        font-size: 1.2em;
+        padding: 8px 15px;
+    }
+    
+    .ganador-lanzamiento {
+        font-size: 1.2em;
+    }
+}
+
+/* ===== RESPONSIVE MÓVIL MEJORADO ===== */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+    
+    .subtitle {
+        font-size: 1em;
+    }
+    
+    .section {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    /* Dados principales aún más pequeños en móvil */
+    .dados-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .dado-3d {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .cara-3d {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5em;
+        border-radius: 5px;
+    }
+    
+    .cara-frente { transform: rotateY(0deg) translateZ(35px); }
+    .cara-atras { transform: rotateY(180deg) translateZ(35px); }
+    .cara-derecha { transform: rotateY(90deg) translateZ(35px); }
+    .cara-izquierda { transform: rotateY(-90deg) translateZ(35px); }
+    .cara-arriba { transform: rotateX(90deg) translateZ(35px); }
+    .cara-abajo { transform: rotateX(-90deg) translateZ(35px); }
+    
+    .dado-3d-container h3 {
+        font-size: 1.3em;
+        margin-bottom: 10px;
+    }
+    
+    .caras-lista {
+        font-size: 0.9em;
+    }
+    
+    /* Área de lanzamiento responsive */
+    .area-lanzamiento {
+        padding: 30px 15px;
+        margin: 20px 0;
+    }
+    
+    .dados-lanzamiento {
+        flex-direction: column;
+        gap: 40px;
+        min-height: 350px;
+        padding: 20px 10px;
+    }
+    
+    .dado-lanzamiento-3d {
+        width: 80px;
+        height: 80px;
+        margin: 30px auto 20px;
+    }
+    
+    .cara-lanz-3d {
+        width: 80px;
+        height: 80px;
+        font-size: 2em;
+        border-radius: 8px;
+    }
+    
+    .cara-frente-lanz { transform: rotateY(0deg) translateZ(40px); }
+    .cara-atras-lanz { transform: rotateY(180deg) translateZ(40px); }
+    .cara-derecha-lanz { transform: rotateY(90deg) translateZ(40px); }
+    .cara-izquierda-lanz { transform: rotateY(-90deg) translateZ(40px); }
+    .cara-arriba-lanz { transform: rotateX(90deg) translateZ(40px); }
+    .cara-abajo-lanz { transform: rotateX(-90deg) translateZ(40px); }
+    
+    .vs-divider {
+        font-size: 1.5em;
+        margin: 20px 0;
+    }
+    
+    .resultado-lanz {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5em;
+        margin: 8px auto;
+    }
+    
+    /* Juego area responsive */
+    .jugadores {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .jugador select {
+        padding: 10px;
+        font-size: 0.95em;
+    }
+    
+    .juego-area {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-primary, .btn-secondary, .btn-tertiary {
+        padding: 15px 25px; /* Más padding para facilitar el toque */
+        font-size: 1.1em;
+        width: 100%;
+        max-width: 280px;
+        min-height: 48px; /* Altura mínima recomendada para touch */
+        margin: 8px auto;
+        display: block;
+    }
+    
+    /* Ganador lanzamiento responsive */
+    .ganador-lanzamiento {
+        font-size: 1.1em;
+        padding: 10px;
+        margin-top: 15px;
+    }
+    
+    .ganador-j1, .ganador-j2, .empate {
+        padding: 12px;
+        font-size: 0.95em;
+    }
+    
+    /* Análisis probabilístico responsive */
+    #tablaProbabilidades {
+        font-size: 0.8em;
+    }
+    
+    #tablaProbabilidades th, 
+    #tablaProbabilidades td {
+        padding: 8px 4px;
+    }
+    
+    /* Estadísticas responsive */
+    .stats-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .stat-item {
+        min-width: auto;
+    }
+}
+
+/* ===== TABLETS ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .dados-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .dado-3d {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .cara-3d {
+        width: 80px;
+        height: 80px;
+        font-size: 1.8em;
+    }
+    
+    .cara-frente { transform: rotateY(0deg) translateZ(40px); }
+    .cara-atras { transform: rotateY(180deg) translateZ(40px); }
+    .cara-derecha { transform: rotateY(90deg) translateZ(40px); }
+    .cara-izquierda { transform: rotateY(-90deg) translateZ(40px); }
+    .cara-arriba { transform: rotateX(90deg) translateZ(40px); }
+    .cara-abajo { transform: rotateX(-90deg) translateZ(40px); }
+    
+    .dados-lanzamiento {
+        gap: 60px;
+        min-height: 320px;
+    }
+    
+    .dado-lanzamiento-3d {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .cara-lanz-3d {
+        width: 90px;
+        height: 90px;
+        font-size: 2.2em;
+    }
+    
+    .cara-frente-lanz { transform: rotateY(0deg) translateZ(45px); }
+    .cara-atras-lanz { transform: rotateY(180deg) translateZ(45px); }
+    .cara-derecha-lanz { transform: rotateY(90deg) translateZ(45px); }
+    .cara-izquierda-lanz { transform: rotateY(-90deg) translateZ(45px); }
+    .cara-arriba-lanz { transform: rotateX(90deg) translateZ(45px); }
+    .cara-abajo-lanz { transform: rotateX(-90deg) translateZ(45px); }
+}
+
+/* ===== MODAL DE REGISTRO DE JUGADORES ===== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-content h2 {
+    margin: 0 0 20px 0;
+    font-size: 2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.reglas-resumen {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.reglas-resumen h3 {
+    margin: 0 0 10px 0;
+    color: #ffeb3b;
+}
+
+.reglas-resumen ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.reglas-resumen li {
+    margin: 5px 0;
+}
+
+.registro-jugadores {
+    margin-top: 20px;
+}
+
+.input-group {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ffeb3b;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 235, 59, 0.5);
+}
+
+.btn-comenzar {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(238, 90, 36, 0.3);
+}
+
+.btn-comenzar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(238, 90, 36, 0.4);
+}
+
+.btn-comenzar:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive para modal */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.5em;
+    }
+    
+    .input-group input {
+        font-size: 14px;
+    }
+    
+    .btn-comenzar {
+        font-size: 16px;
+        padding: 12px 25px;
+    }
+}
+
+/* ===== ANÁLISIS PROBABILÍSTICO ===== */
+.matriz-probabilidades {
+    margin: 30px 0;
+}
+
+#tablaProbabilidades {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#tablaProbabilidades th,
+#tablaProbabilidades td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#tablaProbabilidades th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 18px;
+}
+
+#tablaProbabilidades td {
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+#tablaProbabilidades td:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.estrategia {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin: 30px 0;
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.estrategia h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.5em;
+}
+
+.estrategia-content ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.estrategia-content li {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+.paradoja-highlight {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border-left: 4px solid #ffeb3b;
+}
+
+.paradoja-highlight p {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+/* ===== ESTADÍSTICAS ===== */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.stat-item {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-item h4 {
+    margin: 0 0 15px 0;
+    font-size: 1.2em;
+    color: #ffeb3b;
+}
+
+.stat-item span {
+    font-size: 2em;
+    font-weight: bold;
+    display: block;
+    margin: 10px 0;
+}
+
+#victoriasporDado div {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    padding: 5px 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Responsive para análisis */
+@media (max-width: 768px) {
+    #tablaProbabilidades {
+        font-size: 14px;
+    }
+    
+    #tablaProbabilidades th,
+    #tablaProbabilidades td {
+        padding: 8px;
+    }
+    
+    .estrategia {
+        padding: 20px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== HISTORIAL DE LANZAMIENTOS ===== */
+.historial {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 25px;
+    border-radius: 20px;
+    margin: 20px 0;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.historial h4 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    font-size: 1.4em;
+    text-align: center;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.historial h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.historial-lista {
+    padding: 0;
+}
+
+.entrada-historial {
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 255, 0.95) 100%);
+    border: 2px solid transparent;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 12px 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.entrada-historial::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+}
+
+.entrada-historial:hover::before {
+    transform: translateX(100%);
+}
+
+.entrada-historial:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 12px 25px rgba(0, 0, 0, 0.15),
+        0 0 30px rgba(102, 126, 234, 0.2);
+}
+
+.entrada-historial.ganador-j1 {
+    border-image: linear-gradient(45deg, #4caf50, #81c784) 1;
+    background: 
+        linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(129, 199, 132, 0.05) 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 255, 0.95) 100%);
+}
+
+.entrada-historial.ganador-j1::after {
+    content: '🎯';
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.2em;
+    opacity: 0.7;
+}
+
+.entrada-historial.ganador-j2 {
+    border-image: linear-gradient(45deg, #2196f3, #64b5f6) 1;
+    background: 
+        linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(100, 181, 246, 0.05) 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 255, 0.95) 100%);
+}
+
+.entrada-historial.ganador-j2::after {
+    content: '🎯';
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.2em;
+    opacity: 0.7;
+}
+
+.entrada-historial.empate {
+    border-image: linear-gradient(45deg, #ff9800, #ffb74d) 1;
+    background: 
+        linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 183, 77, 0.05) 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 255, 0.95) 100%);
+}
+
+.entrada-historial.empate::after {
+    content: '🤝';
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.2em;
+    opacity: 0.7;
+}
+
+.ronda-numero {
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 12px;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lanzamiento-detalle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0;
+    font-weight: 500;
+    gap: 10px;
+}
+
+.jugador-1, .jugador-2 {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.vs {
+    font-weight: bold;
+    color: #666;
+    padding: 8px 15px;
+    font-size: 1.1em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.resultado-ronda {
+    text-align: center;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.resultado-simple {
+    text-align: center;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 1.1em;
+}
+
+.historial-vacio {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 40px 20px;
+    font-size: 1.1em;
+}
+
+.historial-info {
+    text-align: center;
+    color: #667eea;
+    font-size: 0.9em;
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* Animación de entrada para las entradas del historial */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive para historial */
+@media (max-width: 480px) {
+    .lanzamiento-detalle {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .vs {
+        padding: 5px 0;
+    }
+    
+    .entrada-historial {
+        padding: 12px;
     }
 }

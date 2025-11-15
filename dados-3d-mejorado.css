@@ -1,0 +1,100 @@
+/* ===== ALTERNATIVA 1: DADOS 3D MEJORADOS ===== */
+
+/* Contenedor principal con perspectiva aumentada */
+.dado-lanzamiento-3d {
+    perspective: 1000px;
+    perspective-origin: center center;
+    width: 80px;
+    height: 80px;
+    margin: 20px auto;
+}
+
+/* Cubo del dado con mayor profundidad visual */
+.dado-cubo {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    margin: 0 auto;
+    transform: rotateX(-15deg) rotateY(25deg);
+}
+
+/* Caras del cubo con mejor profundidad y sombras */
+.cara-lanz-3d {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    border: 3px solid #444;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+}
+
+.cara-frente-lanz {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    transform: rotateY(0deg) translateZ(40px);
+}
+
+.cara-atras-lanz {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    transform: rotateY(180deg) translateZ(40px);
+}
+
+.cara-derecha-lanz {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    transform: rotateY(90deg) translateZ(40px);
+}
+
+.cara-izquierda-lanz {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    transform: rotateY(-90deg) translateZ(40px);
+}
+
+.cara-arriba-lanz {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    transform: rotateX(90deg) translateZ(40px);
+}
+
+.cara-abajo-lanz {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    transform: rotateX(-90deg) translateZ(40px);
+}
+
+/* Animación mejorada con mayor rotación */
+.dadoRodando-mejorado {
+    animation: dadoRodandoMejorado 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-style: preserve-3d;
+}
+
+@keyframes dadoRodandoMejorado {
+    0% { 
+        transform: rotateX(-15deg) rotateY(25deg) rotateZ(0deg) scale(1);
+        filter: blur(0px);
+    }
+    20% { 
+        transform: rotateX(200deg) rotateY(300deg) rotateZ(150deg) scale(1.1);
+        filter: blur(1px);
+    }
+    40% { 
+        transform: rotateX(500deg) rotateY(700deg) rotateZ(400deg) scale(1.15);
+        filter: blur(2px);
+    }
+    60% { 
+        transform: rotateX(800deg) rotateY(1100deg) rotateZ(650deg) scale(1.1);
+        filter: blur(1px);
+    }
+    80% { 
+        transform: rotateX(1050deg) rotateY(1400deg) rotateZ(850deg) scale(1.05);
+        filter: blur(0.5px);
+    }
+    100% { 
+        transform: rotateX(1080deg) rotateY(1440deg) rotateZ(900deg) scale(1);
+        filter: blur(0px);
+    }
+}
